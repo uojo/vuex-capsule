@@ -1,0 +1,15 @@
+export const A_LIST_REQUEST = 'a/list_request'
+export const M_LIST_LOADING = 'm/list_loading'
+export const M_LIST_RECEIVED = 'm/list_received'
+export const M_LIST_ERROR = 'm/list_error'
+
+export const A_MOD_REQUEST = 'a/mod_request'
+export const M_MOD_LOADING = 'm/mod_loading'
+export const M_MOD_RECEIVED = 'm/mod_received'
+export const M_MOD_ERROR = 'm/mod_error'
+export const M_MOD_RESET = 'm/mod_reset'
+export const M_MOD_SET = 'm/mod_set'
+
+export const A_SUBMIT_REQUEST = 'a/submit_request'
+export const M_SUBMIT_RECEIVED = 'm/submit_received'
+export const M_SUBMIT_STEP = 'm/submit_step'
