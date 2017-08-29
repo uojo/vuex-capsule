@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
 		value: true
 });
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
 var _Types$M_LIST_LOADING;
 
 var _deepAssign = require('deep-assign');
@@ -20,24 +28,22 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var objAssign = function objAssign(dd, sd) {
 		if (dd) {
-				Object.assign(dd, sd);
+				(0, _assign2.default)(dd, sd);
 		} else {
 				console.warn('目标对象非法');
 		}
 };
 
-exports.default = (_Types$M_LIST_LOADING = {}, _defineProperty(_Types$M_LIST_LOADING, Types.M_LIST_LOADING, function (state, path) {
+exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_LOADING, function (state, path) {
 		var rlt = {
 				itemsStep: 'loading',
 				items: []
 		};
 		var dd = eval('state.' + path);
 		objAssign(dd, rlt);
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_LIST_RECEIVED, function (state, _ref) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_RECEIVED, function (state, _ref) {
 		var path = _ref.path,
 		    response = _ref.response,
 		    setBefore = _ref.setBefore,
@@ -60,7 +66,7 @@ exports.default = (_Types$M_LIST_LOADING = {}, _defineProperty(_Types$M_LIST_LOA
 		objAssign(dd, rlt);
 
 		setAfter && setAfter(response);
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_LIST_ERROR, function (state, _ref2) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_ERROR, function (state, _ref2) {
 		var path = _ref2.path,
 		    message = _ref2.message;
 
@@ -70,9 +76,9 @@ exports.default = (_Types$M_LIST_LOADING = {}, _defineProperty(_Types$M_LIST_LOA
 		};
 		var dd = eval('state.' + path);
 		objAssign(dd, rlt);
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_MOD_LOADING, function (state, stepField) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_LOADING, function (state, stepField) {
 		stepField && eval('state.' + stepField + '="loading"');
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_MOD_RECEIVED, function (state, _ref3) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_RECEIVED, function (state, _ref3) {
 		var path = _ref3.path,
 		    stepField = _ref3.stepField,
 		    res = _ref3.res,
@@ -85,7 +91,7 @@ exports.default = (_Types$M_LIST_LOADING = {}, _defineProperty(_Types$M_LIST_LOA
 
 
 		res && objAssign(dd, res);
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_MOD_ERROR, function (state, _ref4) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_ERROR, function (state, _ref4) {
 		var stepField = _ref4.stepField,
 		    errorField = _ref4.errorField,
 		    message = _ref4.message;
@@ -93,20 +99,20 @@ exports.default = (_Types$M_LIST_LOADING = {}, _defineProperty(_Types$M_LIST_LOA
 
 		stepField && eval('state.' + stepField + '="error"');
 		errorField && eval('state.' + errorField + '=message');
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_MOD_RESET, function (state, _ref5) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_RESET, function (state, _ref5) {
 		var path = _ref5.path,
 		    data = _ref5.data;
 
 		console.warn("M_MOD_RESET");
 		var dd = eval('state.' + path);
-		var rlt = Object.assign({}, dd);
+		var rlt = (0, _assign2.default)({}, dd);
 
 		for (var key in rlt) {
 				rlt[key] = '';
 		}
 
-		objAssign(dd, Object.assign(rlt, data));
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_MOD_SET, function (state, tasks) {
+		objAssign(dd, (0, _assign2.default)(rlt, data));
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_SET, function (state, tasks) {
 
 		if (!(0, _lodash.isArray)(tasks) && (0, _lodash.isPlainObject)(tasks)) {
 				tasks = [tasks];
@@ -163,7 +169,7 @@ exports.default = (_Types$M_LIST_LOADING = {}, _defineProperty(_Types$M_LIST_LOA
 						}
 				}
 		});
-}), _defineProperty(_Types$M_LIST_LOADING, Types.M_SUBMIT_STEP, function (state, _ref6) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_SUBMIT_STEP, function (state, _ref6) {
 		var stepField = _ref6.stepField,
 		    errorField = _ref6.errorField,
 		    message = _ref6.message,

@@ -69,6 +69,9 @@
 	});
 	
 ## ChangeLog
+### 0.1.2
+- fix babel 编译
+
 ### 0.1.1
 - 增加 babel 编译
 

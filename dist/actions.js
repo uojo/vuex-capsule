@@ -4,7 +4,25 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _assign = require('babel-runtime/core-js/object/assign');
+
+var _assign2 = _interopRequireDefault(_assign);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _types = require('./types');
 
@@ -12,16 +30,14 @@ var Types = _interopRequireWildcard(_types);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (_ref) {
 	var _handle;
 
 	var http = _ref.http;
 
-	var handle = (_handle = {}, _defineProperty(_handle, Types.A_LIST_REQUEST, function (_ref2, _ref3) {
+	var handle = (_handle = {}, (0, _defineProperty3.default)(_handle, Types.A_LIST_REQUEST, function (_ref2, _ref3) {
 		var commit = _ref2.commit,
 		    state = _ref2.state,
 		    dispatch = _ref2.dispatch;
@@ -45,7 +61,7 @@ exports.default = function (_ref) {
 
 			commit(Types.M_LIST_ERROR, { path: path, message: message });
 		});
-	}), _defineProperty(_handle, Types.A_MOD_REQUEST, function (_ref5, _ref6) {
+	}), (0, _defineProperty3.default)(_handle, Types.A_MOD_REQUEST, function (_ref5, _ref6) {
 		var commit = _ref5.commit,
 		    state = _ref5.state,
 		    dispatch = _ref5.dispatch;
@@ -72,8 +88,8 @@ exports.default = function (_ref) {
 
 			commit(Types.M_MOD_ERROR, { stepField: stepField, errorField: errorField, message: message });
 		});
-	}), _defineProperty(_handle, Types.A_SUBMIT_REQUEST, function () {
-		var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(_ref9) {
+	}), (0, _defineProperty3.default)(_handle, Types.A_SUBMIT_REQUEST, function () {
+		var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref9) {
 			var commit = _ref9.commit,
 			    state = _ref9.state,
 			    dispatch = _ref9.dispatch;
@@ -81,7 +97,7 @@ exports.default = function (_ref) {
 
 			var api, _data$payload, payload, redirectUrl, back, _data$requestBeforeAc, requestBeforeActions, _data$requestAfterAct, requestAfterActions, callback, _data$stepField, stepField, _data$errorField, errorField, i, _loop, rlts;
 
-			return regeneratorRuntime.wrap(function _callee2$(_context4) {
+			return _regenerator2.default.wrap(function _callee2$(_context4) {
 				while (1) {
 					switch (_context4.prev = _context4.next) {
 						case 0:
@@ -96,13 +112,13 @@ exports.default = function (_ref) {
 							}
 
 							i = 0;
-							_loop = regeneratorRuntime.mark(function _loop() {
+							_loop = _regenerator2.default.mark(function _loop() {
 								var el, trlt, tfn;
-								return regeneratorRuntime.wrap(function _loop$(_context) {
+								return _regenerator2.default.wrap(function _loop$(_context) {
 									while (1) {
 										switch (_context.prev = _context.next) {
 											case 0:
-												el = Object.assign({
+												el = (0, _assign2.default)({
 													name: "",
 													payload: null,
 													async: true,
@@ -172,21 +188,21 @@ exports.default = function (_ref) {
 								}
 
 								if (requestAfterActions.length) {
-									_asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+									(0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
 										var i, _loop2;
 
-										return regeneratorRuntime.wrap(function _callee$(_context3) {
+										return _regenerator2.default.wrap(function _callee$(_context3) {
 											while (1) {
 												switch (_context3.prev = _context3.next) {
 													case 0:
 														i = 0;
-														_loop2 = regeneratorRuntime.mark(function _loop2() {
+														_loop2 = _regenerator2.default.mark(function _loop2() {
 															var el, trlt, tfn;
-															return regeneratorRuntime.wrap(function _loop2$(_context2) {
+															return _regenerator2.default.wrap(function _loop2$(_context2) {
 																while (1) {
 																	switch (_context2.prev = _context2.next) {
 																		case 0:
-																			el = Object.assign({
+																			el = (0, _assign2.default)({
 																				name: "",
 																				payload: null,
 																				async: true,
@@ -248,7 +264,7 @@ exports.default = function (_ref) {
 								}
 
 								if (callback) {
-									if ((typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) === 'object') {
+									if ((typeof callback === 'undefined' ? 'undefined' : (0, _typeof3.default)(callback)) === 'object') {
 										callback.response = res;
 										commit(Types.M_MOD_SET, callback);
 									}
