@@ -1,3 +1,3 @@
-const handle = require('./dist/index');
+const handle = require('../dist/index');
 
 console.log(handle)
