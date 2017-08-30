@@ -4,7 +4,7 @@ export default ({http})=>{
 	// console.log(http)
 	let handle ={
 		[Types.A_LIST_REQUEST]: ({commit, state, dispatch}, {path,api,payload,setBefore,setAfter}) => {
-			console.log(path,api,payload)
+			// console.log(path,api,payload)
 			commit(Types.M_LIST_LOADING, path)
 			http.req('get', api, payload, response => {
 				commit(Types.M_LIST_RECEIVED, {
