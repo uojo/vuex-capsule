@@ -1,6 +1,6 @@
 {
   "name": "vuex-capsule",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "简化 vuex 的编码",
   "main": "dist/index.js",
   "scripts": {

@@ -47,7 +47,6 @@ exports.default = function (_ref) {
 		    setBefore = _ref3.setBefore,
 		    setAfter = _ref3.setAfter;
 
-		console.log(path, api, payload);
 		commit(Types.M_LIST_LOADING, path);
 		http.req('get', api, payload, function (response) {
 			commit(Types.M_LIST_RECEIVED, {

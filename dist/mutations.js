@@ -144,7 +144,6 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 
 				if (operate === 'match.set') {
 						dd.map(function (el) {
-								console.log(el, el[matchField], matchValue);
 								if (el[matchField] === matchValue && matchCallback) {
 										return matchCallback(el);
 								} else {
@@ -153,7 +152,6 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 						});
 				} else if (operate === 'match.del') {
 						rlt = eval('state.' + path).filter(function (el, i) {
-								console.log(el);
 								if (el[matchField] !== matchValue) {
 										return el;
 								}
