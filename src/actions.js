@@ -17,7 +17,7 @@ export default ({http})=>{
 				commit(Types.M_LIST_ERROR, { path, message })
 			})
 		},
-		
+
 		[Types.A_MOD_REQUEST]: ({commit, state, dispatch}, {api,path="",stepField="",errorField="", payload,setBefore}) => {
 			// console.log(api,path,payload)
 			commit(Types.M_MOD_LOADING, stepField)
@@ -32,13 +32,13 @@ export default ({http})=>{
 				commit(Types.M_MOD_ERROR, { stepField, errorField, message })
 			})
 		},
-		
+
 		[Types.A_SUBMIT_REQUEST]: async ({commit, state, dispatch}, data={}) => {
 			// console.log(payload)
 			const {api,payload={},redirectUrl,back,requestBeforeActions=[],requestAfterActions=[],callback,stepField="",errorField=""} = data;
-			
+
 			stepField && commit(Types.M_SUBMIT_STEP,{stepField,value:"loading"})
-			
+
 			if(requestBeforeActions.length){
 				let i = 0;
 				while(i<requestBeforeActions.length){
@@ -54,25 +54,18 @@ export default ({http})=>{
 					}else{
 						trlt = await tfn()
 					}
-					
+
 					el.callback && el.callback(trlt,payload)
 					i++
 				}
 			}
-			
+
 			let rlts;
 			await http.req('post', api, payload, res => {
-				const {success,message}=res;
 				rlts = res;
 				// console.log(res,success,message)
-				
-				if(success){
-					stepField && commit(Types.M_SUBMIT_STEP,{stepField,value:"submitted"})
-				}else{
-					stepField && commit(Types.M_SUBMIT_STEP,{stepField,errorField,message,value:"error"})
-					return;
-				}
-				
+        stepField && commit(Types.M_SUBMIT_STEP,{stepField,value:"submitted"})
+
 				// console.log(requestAfterActions)
 				if(requestAfterActions.length){
 					(async ()=>{
@@ -90,13 +83,13 @@ export default ({http})=>{
 							}else{
 								trlt = await tfn()
 							}
-							
+
 							el.callback && el.callback(trlt,payload)
 							i++
 						}
 					})()
 				}
-				
+
 				// 执行回调
 				if(callback){
 					if(typeof callback==='object'){
@@ -104,18 +97,21 @@ export default ({http})=>{
 						commit(Types.M_MOD_SET, callback)
 					}
 				}
-				
+
 				back && setTimeout(()=>{
 					if(typeof back==='string'){
 						location.hash=back;
 					}else{
 						window.history.go(-1)
 					}
-					
+
 				},500)
 				redirectUrl && (window.location.hash = redirectUrl)
-			})
-			
+			}, err =>{
+			  let message = err.message;
+			  stepField && commit(Types.M_SUBMIT_STEP,{stepField,errorField,message,value:"error"})
+      })
+
 			return rlts;
 		},
 	}
