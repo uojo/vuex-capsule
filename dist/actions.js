@@ -173,18 +173,9 @@ exports.default = function (_ref) {
 							rlts = void 0;
 							_context4.next = 12;
 							return http.req('post', api, payload, function (res) {
-								var success = res.success,
-								    message = res.message;
-
 								rlts = res;
 
-
-								if (success) {
-									stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, value: "submitted" });
-								} else {
-									stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, errorField: errorField, message: message, value: "error" });
-									return;
-								}
+								stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, value: "submitted" });
 
 								if (requestAfterActions.length) {
 									(0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -277,6 +268,9 @@ exports.default = function (_ref) {
 									}
 								}, 500);
 								redirectUrl && (window.location.hash = redirectUrl);
+							}, function (err) {
+								var message = err.message;
+								stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, errorField: errorField, message: message, value: "error" });
 							});
 
 						case 12:
