@@ -103,7 +103,7 @@ exports.default = function (_ref) {
 							api = data.api, _data$payload = data.payload, payload = _data$payload === undefined ? {} : _data$payload, redirectUrl = data.redirectUrl, back = data.back, _data$requestBeforeAc = data.requestBeforeActions, requestBeforeActions = _data$requestBeforeAc === undefined ? [] : _data$requestBeforeAc, _data$requestAfterAct = data.requestAfterActions, requestAfterActions = _data$requestAfterAct === undefined ? [] : _data$requestAfterAct, callback = data.callback, _data$stepField = data.stepField, stepField = _data$stepField === undefined ? "" : _data$stepField, _data$errorField = data.errorField, errorField = _data$errorField === undefined ? "" : _data$errorField;
 
 
-							stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, value: "loading" });
+							stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, value: "submitting" });
 
 							if (!requestBeforeActions.length) {
 								_context4.next = 9;
