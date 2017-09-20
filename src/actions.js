@@ -37,7 +37,7 @@ export default ({http})=>{
 			// console.log(payload)
 			const {api,payload={},redirectUrl,back,requestBeforeActions=[],requestAfterActions=[],callback,stepField="",errorField=""} = data;
 
-			stepField && commit(Types.M_SUBMIT_STEP,{stepField,value:"loading"})
+			stepField && commit(Types.M_SUBMIT_STEP,{stepField,value:"submitting"})
 
 			if(requestBeforeActions.length){
 				let i = 0;
