@@ -15,6 +15,6 @@ var M_MOD_ERROR = exports.M_MOD_ERROR = 'm/mod_error';
 var M_MOD_RESET = exports.M_MOD_RESET = 'm/mod_reset';
 var M_MOD_SET = exports.M_MOD_SET = 'm/mod_set';
 
-var A_SUBMIT_REQUEST = exports.A_SUBMIT_REQUEST = 'a/submit_request';
-var M_SUBMIT_RECEIVED = exports.M_SUBMIT_RECEIVED = 'm/submit_received';
-var M_SUBMIT_STEP = exports.M_SUBMIT_STEP = 'm/submit_step';
+var A_SEND_REQUEST = exports.A_SEND_REQUEST = 'a/send_request';
+var M_SEND_RECEIVED = exports.M_SEND_RECEIVED = 'm/send_received';
+var M_SEND_STEP = exports.M_SEND_STEP = 'm/send_step';

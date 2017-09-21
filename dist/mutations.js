@@ -103,7 +103,6 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 		var path = _ref5.path,
 		    data = _ref5.data;
 
-		console.warn("M_MOD_RESET");
 		var dd = eval('state.' + path);
 		var rlt = (0, _assign2.default)({}, dd);
 
@@ -117,7 +116,7 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 		if (!(0, _lodash.isArray)(tasks) && (0, _lodash.isPlainObject)(tasks)) {
 				tasks = [tasks];
 		}
-		console.warn("M_MOD_SET", tasks);
+
 		tasks.map(function (task) {
 				var path = task.path,
 				    operate = task.operate,
@@ -167,7 +166,7 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 						}
 				}
 		});
-}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_SUBMIT_STEP, function (state, _ref6) {
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_SEND_STEP, function (state, _ref6) {
 		var stepField = _ref6.stepField,
 		    errorField = _ref6.errorField,
 		    message = _ref6.message,

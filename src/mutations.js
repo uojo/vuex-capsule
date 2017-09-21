@@ -79,7 +79,7 @@ export default {
     
   },
   [Types.M_MOD_RESET]: (state, {path,data}) => {
-    console.warn("M_MOD_RESET")
+    // console.warn("M_MOD_RESET")
 		let dd = eval(`state.${path}`)
     let rlt = Object.assign({},dd);
     // console.log(rlt)
@@ -95,7 +95,7 @@ export default {
 		if( !isArray(tasks) && isPlainObject(tasks) ){
 			tasks = [tasks]
 		}
-		console.warn("M_MOD_SET", tasks)
+		// console.warn("M_MOD_SET", tasks)
 		tasks.map( task=>{
 			
 			let {
@@ -151,7 +151,7 @@ export default {
 		});
     
   },
-  [Types.M_SUBMIT_STEP]: (state, {stepField,errorField,message,value}) => {
+  [Types.M_SEND_STEP]: (state, {stepField,errorField,message,value}) => {
     stepField && eval(`state.${stepField}=value`)
     errorField && message && eval(`state.${errorField}=message`)
   }

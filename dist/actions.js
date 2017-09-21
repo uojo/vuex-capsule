@@ -35,7 +35,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function (_ref) {
 	var _handle;
 
-	var http = _ref.http;
+	var request = _ref.request;
 
 	var handle = (_handle = {}, (0, _defineProperty3.default)(_handle, Types.A_LIST_REQUEST, function (_ref2, _ref3) {
 		var commit = _ref2.commit,
@@ -48,7 +48,7 @@ exports.default = function (_ref) {
 		    setAfter = _ref3.setAfter;
 
 		commit(Types.M_LIST_LOADING, path);
-		http.req('get', api, payload, function (response) {
+		request('get', api, payload, function (response) {
 			commit(Types.M_LIST_RECEIVED, {
 				path: path,
 				response: response,
@@ -75,7 +75,7 @@ exports.default = function (_ref) {
 		    setBefore = _ref6.setBefore;
 
 		commit(Types.M_MOD_LOADING, stepField);
-		http.req('get', api, payload, function (res) {
+		request('get', api, payload, function (res) {
 			commit(Types.M_MOD_RECEIVED, {
 				path: path,
 				stepField: stepField,
@@ -87,12 +87,13 @@ exports.default = function (_ref) {
 
 			commit(Types.M_MOD_ERROR, { stepField: stepField, errorField: errorField, message: message });
 		});
-	}), (0, _defineProperty3.default)(_handle, Types.A_SUBMIT_REQUEST, function () {
+	}), (0, _defineProperty3.default)(_handle, Types.A_SEND_REQUEST, function () {
 		var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref9) {
 			var commit = _ref9.commit,
 			    state = _ref9.state,
 			    dispatch = _ref9.dispatch;
 			var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+			var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "post";
 
 			var api, _data$payload, payload, redirectUrl, back, _data$requestBeforeAc, requestBeforeActions, _data$requestAfterAct, requestAfterActions, callback, _data$stepField, stepField, _data$errorField, errorField, i, _loop, rlts;
 
@@ -103,7 +104,7 @@ exports.default = function (_ref) {
 							api = data.api, _data$payload = data.payload, payload = _data$payload === undefined ? {} : _data$payload, redirectUrl = data.redirectUrl, back = data.back, _data$requestBeforeAc = data.requestBeforeActions, requestBeforeActions = _data$requestBeforeAc === undefined ? [] : _data$requestBeforeAc, _data$requestAfterAct = data.requestAfterActions, requestAfterActions = _data$requestAfterAct === undefined ? [] : _data$requestAfterAct, callback = data.callback, _data$stepField = data.stepField, stepField = _data$stepField === undefined ? "" : _data$stepField, _data$errorField = data.errorField, errorField = _data$errorField === undefined ? "" : _data$errorField;
 
 
-							stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, value: "loading" });
+							stepField && commit(Types.M_SEND_STEP, { stepField: stepField, value: "loading" });
 
 							if (!requestBeforeActions.length) {
 								_context4.next = 9;
@@ -172,10 +173,10 @@ exports.default = function (_ref) {
 						case 9:
 							rlts = void 0;
 							_context4.next = 12;
-							return http.req('post', api, payload, function (res) {
+							return request(method, api, payload, function (res) {
 								rlts = res;
 
-								stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, value: "submitted" });
+								stepField && commit(Types.M_SEND_STEP, { stepField: stepField, value: "onload" });
 
 								if (requestAfterActions.length) {
 									(0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -270,7 +271,7 @@ exports.default = function (_ref) {
 								redirectUrl && (window.location.hash = redirectUrl);
 							}, function (err) {
 								var message = err.message;
-								stepField && commit(Types.M_SUBMIT_STEP, { stepField: stepField, errorField: errorField, message: message, value: "error" });
+								stepField && commit(Types.M_SEND_STEP, { stepField: stepField, errorField: errorField, message: message, value: "error" });
 							});
 
 						case 12:
