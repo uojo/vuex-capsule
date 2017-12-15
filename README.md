@@ -158,6 +158,9 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 0.5.0
+- 新增对 path 字段有效性判断
+- 修复 method 字段
 ### 0.4.0
 - 将常量名称 A_SUBMIT_REQUEST 变更为 A_SEND_REQUEST
 - A_SEND_REQUEST 新增参数 method
