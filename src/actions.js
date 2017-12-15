@@ -18,7 +18,7 @@ export default ({request})=>{
 			})
 		},
 
-		[Types.A_MOD_REQUEST]: ({commit, state, dispatch}, {api,path="",stepField="",errorField="", payload,setBefore}) => {
+		[Types.A_MOD_REQUEST]: ({commit, state, dispatch}, {api, path="",stepField="",errorField="", payload,setBefore}) => {
 			// console.log(api,path,payload)
 			commit(Types.M_MOD_LOADING, stepField)
 			request('get', api, payload, res => {
@@ -33,9 +33,10 @@ export default ({request})=>{
 			})
 		},
 
-		[Types.A_SEND_REQUEST]: async ({commit, state, dispatch}, data={}, method="post") => {
-			// console.log(payload)
-			const {api,payload={},redirectUrl,back,requestBeforeActions=[],requestAfterActions=[],callback,stepField="",errorField=""} = data;
+		[Types.A_SEND_REQUEST]: async ({commit, state, dispatch}, data={}) => {
+			// console.log("data",data)
+			// console.log("method",method)
+			const {api,payload={},redirectUrl,back,requestBeforeActions=[],requestAfterActions=[],callback,stepField="",errorField="", method="post"} = data;
 
 			stepField && commit(Types.M_SEND_STEP,{stepField,value:"loading"})
 
