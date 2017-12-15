@@ -85,12 +85,15 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 		    setBefore = _ref3.setBefore;
 
 		stepField && eval('state.' + stepField + '="onload"');
-		var dd = eval('state.' + path);
 
 		setBefore && (res = setBefore(res));
 
+		var dd = path ? eval('state.' + path) : null;
 
-		res && objAssign(dd, res);
+
+		if (dd && res) {
+				objAssign(dd, res);
+		}
 }), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_ERROR, function (state, _ref4) {
 		var stepField = _ref4.stepField,
 		    errorField = _ref4.errorField,
