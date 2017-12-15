@@ -64,12 +64,15 @@ export default {
   [Types.M_MOD_RECEIVED]: (state, {path, stepField, res, setBefore}) => {
     // console.log(state, res)
 		stepField && eval(`state.${stepField}="onload"`)
-    let dd = eval(`state.${path}`)
-		
+    
     setBefore && (res = setBefore(res))
+		
+		let dd = path?eval(`state.${path}`):null
     // console.log(dd, res)
 		
-    res && objAssign(dd, res )
+		if(dd && res){
+			objAssign(dd, res )
+		}
     
   },
   [Types.M_MOD_ERROR]: (state, {stepField,errorField,message}) => {
@@ -80,6 +83,7 @@ export default {
   },
   [Types.M_MOD_RESET]: (state, {path,data}) => {
     // console.warn("M_MOD_RESET")
+		if(!path)return;
 		let dd = eval(`state.${path}`)
     let rlt = Object.assign({},dd);
     // console.log(rlt)
