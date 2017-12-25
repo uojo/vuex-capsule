@@ -106,6 +106,7 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 		var path = _ref5.path,
 		    data = _ref5.data;
 
+		if (!path) return;
 		var dd = eval('state.' + path);
 		var rlt = (0, _assign2.default)({}, dd);
 
@@ -160,7 +161,7 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 						});
 
 						eval('state.' + path + '=rlt');
-				} else if (value) {
+				} else if (typeof value != "undefined") {
 
 						if (operate === 'push') {
 								eval('state.' + path + '.push(value)');

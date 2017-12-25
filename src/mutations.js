@@ -142,7 +142,7 @@ export default {
 				
 				eval(`state.${path}=rlt`);
 				
-			}else if(value){
+			}else if(typeof value !="undefined"){
 				
 				if( operate==='push' ){
 					eval(`state.${path}.push(value)`)

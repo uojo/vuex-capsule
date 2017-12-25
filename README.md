@@ -158,6 +158,8 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 0.5.1
+- 修复 M_MOD_SET ，当值为 false 时
 ### 0.5.0
 - 新增对 path 字段有效性判断
 - 修复 method 字段
