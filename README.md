@@ -150,14 +150,16 @@ commit(Types.M_MOD_SET,{
     // 当 operate 等于  match.set|match.del 时，以下字段必填
     matchField:"", //+
     matchValue:"", //+
-    matchCallback:(td)=>{ //?
-    	console.log(td)
+    matchCallback:(td, response)=>{ //?
+    	console.log(td, response)
     	return td;
     }
 });
 ```
 
 ## ChangeLog
+### 0.6.1
+- M_MOD_SET 中的 matchCallback 新增参数 response
 ### 0.5.1
 - 修复 M_MOD_SET ，当值为 false 时
 ### 0.5.0
