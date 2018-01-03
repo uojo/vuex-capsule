@@ -2,15 +2,34 @@ import deepAssign from 'deep-assign'
 import * as Types from './types'
 import {isObject,isPlainObject,isArray} from 'lodash'
 
-const objAssign = (dd,sd)=>{
-	// console.log(dd,sd)
-	if(dd){
-		Object.assign(dd,sd)
-		// deepAssign(dd,sd)
-	}else{
-		console.warn('目标对象非法')
+const utils = {
+	fn:{
+		mapDeep:function (data,callback){
+			if(typeof data ==='object'){
+				function _map(da){
+					for(key in da){
+						var td = da[key];
+						// console.log(typeof td,td)
+						if( callback(td,key,da)!=false && typeof td==='object'){
+							_map(td)
+						}
+						
+					}
+				}
+				_map(data);
+			}
+			return data;
+		},
+		objAssign:function(){
+			// console.log(dd,sd)
+			if(dd){
+				Object.assign(dd,sd)
+				// deepAssign(dd,sd)
+			}else{
+				console.warn('目标对象非法')
+			}
+		}
 	}
-
 }
 
 export default {
@@ -23,7 +42,7 @@ export default {
       items:[]
     };
 		let dd = eval(`state.${path}`)
-    objAssign(dd,rlt)
+    utils.fn.objAssign(dd,rlt)
     
   },
   [Types.M_LIST_RECEIVED]: (state, {path,response,setBefore,setAfter}) => {
@@ -41,7 +60,7 @@ export default {
 		// console.log("M_LIST_RECEIVED", path, rlt);
 		let dd = eval(`state.${path}`)
 		
-    objAssign(dd, rlt);
+    utils.fn.objAssign(dd, rlt);
 
     setAfter && setAfter(response)
 
@@ -53,7 +72,7 @@ export default {
       errorMessage: message
     };
 		let dd = eval(`state.${path}`)
-    objAssign(dd,rlt)
+    utils.fn.objAssign(dd,rlt)
     
   },
 	
@@ -71,7 +90,7 @@ export default {
     // console.log(dd, res)
 		
 		if(dd && res){
-			objAssign(dd, res )
+			utils.fn.objAssign(dd, res )
 		}
     
   },
@@ -87,11 +106,15 @@ export default {
 		let dd = eval(`state.${path}`)
     let rlt = Object.assign({},dd);
     // console.log(rlt)
-    for(var key in rlt){
-      rlt[key]=''
-    }
+		utils.fn.mapDeep(rlt,(val,key,pt)=>{
+			if( val instanceof Array ){
+				pt[key]=[];
+				return false;
+			}
+			pt[key] = ''
+		});
 		
-    objAssign( dd, Object.assign(rlt,data) )
+    utils.fn.objAssign( dd, Object.assign(rlt,data) )
     
   },
   [Types.M_MOD_SET]: (state, tasks) => {

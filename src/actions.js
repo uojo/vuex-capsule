@@ -36,7 +36,7 @@ export default ({request})=>{
 		[Types.A_SEND_REQUEST]: async ({commit, state, dispatch}, data={}) => {
 			// console.log("data",data)
 			// console.log("method",method)
-			const {api,payload={},redirectUrl,back,requestBeforeActions=[],requestAfterActions=[],callback,stepField="",errorField="", method="post"} = data;
+			const {api,payload={},redirectUrl,back,requestBeforeActions=[],requestAfterActions=[],requestSuccess,requestError,callback,stepField="",errorField="", method="post"} = data;
 
 			stepField && commit(Types.M_SEND_STEP,{stepField,value:"loading"})
 
@@ -63,6 +63,7 @@ export default ({request})=>{
 
 			let rlts;
 			await request(method, api, payload, res => {
+				requestSuccess && requestSuccess(res);
 				rlts = res;
 				// console.log(res,success,message)
         stepField && commit(Types.M_SEND_STEP,{stepField,value:"onload"})
@@ -91,6 +92,8 @@ export default ({request})=>{
 					})()
 				}
 				
+				
+				
 				// 执行回调
 				if(callback){
 					if(typeof callback==='object'){
@@ -109,6 +112,8 @@ export default ({request})=>{
 				},500)
 				redirectUrl && (window.location.hash = redirectUrl)
 			}, err =>{
+				requestError && requestError(err);
+				
 			  let message = err.message;
 			  stepField && commit(Types.M_SEND_STEP,{stepField,errorField,message,value:"error"})
       })

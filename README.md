@@ -118,6 +118,8 @@ dispatch(Types.A_SEND_REQUEST,{
     redirectUrl:"", //?
     stepField:"", //?
     messageField:"", //?
+		requestSuccess:(res)=>{}, //? 发送ajax后，结果成功后执行的钩子
+		requestError:(err)=>{}, //? 发送ajax后，结果失败后执行的钩子
     requestBeforeActions:[{async:true,name:"",payload:null,callback(actionResponse,payload){}}], //? 在标记请求开始之后，执行请求之前，需要执行 actions 队列
     requestAfterActions:[{async:true,name:"",payload:null,callback(actionResponse,payload){}}], //? 在执行请求之后，callback 之前，需要执行 actions 队列
     callback:{}, //? 参看 Types.M_MOD_SET 的参数
@@ -158,7 +160,10 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
-### 0.6.1
+### 0.7.0
+- A_SEND_REQUEST 新增参数：requestSuccess, requestError
+- 修复 M_MOD_RESET ，当值为数组时，设置为 [], 其它设置为空字符串
+### 0.6.0
 - M_MOD_SET 中的 matchCallback 新增参数 response
 ### 0.5.1
 - 修复 M_MOD_SET ，当值为 false 时
