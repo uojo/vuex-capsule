@@ -7,7 +7,7 @@ const utils = {
 		mapDeep:function (data,callback){
 			if(typeof data ==='object'){
 				function _map(da){
-					for(key in da){
+					for(var key in da){
 						var td = da[key];
 						// console.log(typeof td,td)
 						if( callback(td,key,da)!=false && typeof td==='object'){

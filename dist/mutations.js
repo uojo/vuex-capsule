@@ -37,7 +37,7 @@ var utils = {
 		mapDeep: function mapDeep(data, callback) {
 			if ((typeof data === 'undefined' ? 'undefined' : (0, _typeof3.default)(data)) === 'object') {
 				var _map = function _map(da) {
-					for (key in da) {
+					for (var key in da) {
 						var td = da[key];
 
 						if (callback(td, key, da) != false && (typeof td === 'undefined' ? 'undefined' : (0, _typeof3.default)(td)) === 'object') {
