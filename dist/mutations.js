@@ -50,7 +50,7 @@ var utils = {
 			}
 			return data;
 		},
-		objAssign: function objAssign() {
+		objAssign: function objAssign(dd, sd) {
 			if (dd) {
 				(0, _assign2.default)(dd, sd);
 			} else {

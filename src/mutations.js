@@ -20,7 +20,7 @@ const utils = {
 			}
 			return data;
 		},
-		objAssign:function(){
+		objAssign:function(dd,sd){
 			// console.log(dd,sd)
 			if(dd){
 				Object.assign(dd,sd)

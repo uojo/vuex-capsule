@@ -160,6 +160,8 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 0.7.1
+- 日常修复
 ### 0.7.0
 - A_SEND_REQUEST 新增参数：requestSuccess, requestError
 - 修复 M_MOD_RESET ，当值为数组时，设置为 [], 其它设置为空字符串
