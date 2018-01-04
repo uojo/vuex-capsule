@@ -28,6 +28,7 @@ const utils = {
 			}else{
 				console.warn('目标对象非法')
 			}
+			return dd;
 		}
 	}
 }
@@ -35,33 +36,64 @@ const utils = {
 export default {
 	
 	// 通用 -- start
-  [Types.M_LIST_LOADING]: (state, path) => {
+  [Types.M_LIST_LOADING]: (state, {path,append}) => {
 		// console.log(state,path)
     let rlt = {
       itemsStep:'loading',
-      items:[]
     };
+		if(!append){
+			rlt.items = []
+			rlt.itemsIndex = []
+		}
 		let dd = eval(`state.${path}`)
     utils.fn.objAssign(dd,rlt)
     
   },
-  [Types.M_LIST_RECEIVED]: (state, {path,response,setBefore,setAfter}) => {
+  [Types.M_LIST_RECEIVED]: (state, {path,response,setBefore,setAfter, indexFieldName, append}) => {
     // Object.assign(state, payload)
 		let {items,pageBean} = response
     let rlt = {
       itemsStep:'onload',
       items,
-      pageBean
+      pageBean,
     };
 		
 		if(setBefore){
-			rlt = setBefore(rlt,response);
+			rlt = setBefore(rlt, response);
 		}
 		// console.log("M_LIST_RECEIVED", path, rlt);
 		let dd = eval(`state.${path}`)
 		
-    utils.fn.objAssign(dd, rlt);
-
+		if(append && indexFieldName){
+			let itemsObj={};
+			items.map(n=>{
+				itemsObj[n[indexFieldName]] = n;
+			});
+			// console.log("res.itemsObj",itemsObj)
+			
+			// 遍历原数据
+			let newItems = []
+			dd.items.map(n=>{
+				let td = itemsObj[n[indexFieldName]];
+				// console.log(n[indexFieldName], td)
+				if( td ){
+					// 与本地数据重复
+					newItems.push(utils.fn.objAssign(n, td));
+					delete itemsObj[n[indexFieldName]];
+				}else{
+					newItems.push(n);
+				}
+			})
+			
+			for(let k in itemsObj){
+				newItems.push( itemsObj[k] );
+			}
+			rlt.items = newItems;
+			// console.log(path, newItems)
+		}
+		
+		utils.fn.objAssign(dd, rlt);
+		
     setAfter && setAfter(response)
 
   },

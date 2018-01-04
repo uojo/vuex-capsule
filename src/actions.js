@@ -3,15 +3,17 @@ import * as Types from './types'
 export default ({request})=>{
 	// console.log(request)
 	let handle ={
-		[Types.A_LIST_REQUEST]: ({commit, state, dispatch}, {path,api,payload,setBefore,setAfter}) => {
+		[Types.A_LIST_REQUEST]: ({commit, state, dispatch}, {path,api,payload,indexFieldName='id',append=false,setBefore,setAfter}) => {
 			// console.log(path,api,payload)
-			commit(Types.M_LIST_LOADING, path)
+			commit(Types.M_LIST_LOADING, {path, append})
 			request('get', api, payload, response => {
 				commit(Types.M_LIST_RECEIVED, {
 					path,
 					response,
 					setBefore,
-					setAfter
+					setAfter,
+					indexFieldName,
+					append
 				})
 			}, ({message}) => {
 				commit(Types.M_LIST_ERROR, { path, message })

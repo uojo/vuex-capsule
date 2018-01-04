@@ -56,22 +56,31 @@ var utils = {
 			} else {
 				console.warn('目标对象非法');
 			}
+			return dd;
 		}
 	}
 };
 
-exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_LOADING, function (state, path) {
+exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_LOADING, function (state, _ref) {
+	var path = _ref.path,
+	    append = _ref.append;
+
 	var rlt = {
-		itemsStep: 'loading',
-		items: []
+		itemsStep: 'loading'
 	};
+	if (!append) {
+		rlt.items = [];
+		rlt.itemsIndex = [];
+	}
 	var dd = eval('state.' + path);
 	utils.fn.objAssign(dd, rlt);
-}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_RECEIVED, function (state, _ref) {
-	var path = _ref.path,
-	    response = _ref.response,
-	    setBefore = _ref.setBefore,
-	    setAfter = _ref.setAfter;
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_RECEIVED, function (state, _ref2) {
+	var path = _ref2.path,
+	    response = _ref2.response,
+	    setBefore = _ref2.setBefore,
+	    setAfter = _ref2.setAfter,
+	    indexFieldName = _ref2.indexFieldName,
+	    append = _ref2.append;
 	var items = response.items,
 	    pageBean = response.pageBean;
 
@@ -87,12 +96,38 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 
 	var dd = eval('state.' + path);
 
+	if (append) {
+		var itemsObj = {};
+		items.map(function (n) {
+			itemsObj[n[indexFieldName]] = n;
+		});
+		console.log("res.itemsObj", itemsObj);
+
+		var newItems = [];
+		dd.items.map(function (n) {
+			var td = itemsObj[n[indexFieldName]];
+			console.log(n[indexFieldName], td);
+			if (td) {
+				newItems.push(utils.fn.objAssign(n, td));
+				delete itemsObj[n[indexFieldName]];
+			} else {
+				newItems.push(n);
+			}
+		});
+
+		for (var k in itemsObj) {
+			newItems.push(itemsObj[k]);
+		}
+		rlt.items = newItems;
+		console.log(path, newItems);
+	}
+
 	utils.fn.objAssign(dd, rlt);
 
 	setAfter && setAfter(response);
-}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_ERROR, function (state, _ref2) {
-	var path = _ref2.path,
-	    message = _ref2.message;
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_LIST_ERROR, function (state, _ref3) {
+	var path = _ref3.path,
+	    message = _ref3.message;
 
 	var rlt = {
 		itemsStep: 'error',
@@ -102,11 +137,11 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 	utils.fn.objAssign(dd, rlt);
 }), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_LOADING, function (state, stepField) {
 	stepField && eval('state.' + stepField + '="loading"');
-}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_RECEIVED, function (state, _ref3) {
-	var path = _ref3.path,
-	    stepField = _ref3.stepField,
-	    res = _ref3.res,
-	    setBefore = _ref3.setBefore;
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_RECEIVED, function (state, _ref4) {
+	var path = _ref4.path,
+	    stepField = _ref4.stepField,
+	    res = _ref4.res,
+	    setBefore = _ref4.setBefore;
 
 	stepField && eval('state.' + stepField + '="onload"');
 
@@ -118,17 +153,17 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 	if (dd && res) {
 		utils.fn.objAssign(dd, res);
 	}
-}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_ERROR, function (state, _ref4) {
-	var stepField = _ref4.stepField,
-	    errorField = _ref4.errorField,
-	    message = _ref4.message;
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_ERROR, function (state, _ref5) {
+	var stepField = _ref5.stepField,
+	    errorField = _ref5.errorField,
+	    message = _ref5.message;
 
 
 	stepField && eval('state.' + stepField + '="error"');
 	errorField && eval('state.' + errorField + '=message');
-}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_RESET, function (state, _ref5) {
-	var path = _ref5.path,
-	    data = _ref5.data;
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_MOD_RESET, function (state, _ref6) {
+	var path = _ref6.path,
+	    data = _ref6.data;
 
 	if (!path) return;
 	var dd = eval('state.' + path);
@@ -198,11 +233,11 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 			}
 		}
 	});
-}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_SEND_STEP, function (state, _ref6) {
-	var stepField = _ref6.stepField,
-	    errorField = _ref6.errorField,
-	    message = _ref6.message,
-	    value = _ref6.value;
+}), (0, _defineProperty3.default)(_Types$M_LIST_LOADING, Types.M_SEND_STEP, function (state, _ref7) {
+	var stepField = _ref7.stepField,
+	    errorField = _ref7.errorField,
+	    message = _ref7.message,
+	    value = _ref7.value;
 
 	stepField && eval('state.' + stepField + '=value');
 	errorField && message && eval('state.' + errorField + '=message');

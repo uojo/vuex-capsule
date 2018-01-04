@@ -44,16 +44,22 @@ exports.default = function (_ref) {
 		var path = _ref3.path,
 		    api = _ref3.api,
 		    payload = _ref3.payload,
+		    _ref3$indexFieldName = _ref3.indexFieldName,
+		    indexFieldName = _ref3$indexFieldName === undefined ? 'id' : _ref3$indexFieldName,
+		    _ref3$append = _ref3.append,
+		    append = _ref3$append === undefined ? true : _ref3$append,
 		    setBefore = _ref3.setBefore,
 		    setAfter = _ref3.setAfter;
 
-		commit(Types.M_LIST_LOADING, path);
+		commit(Types.M_LIST_LOADING, { path: path, append: append });
 		request('get', api, payload, function (response) {
 			commit(Types.M_LIST_RECEIVED, {
 				path: path,
 				response: response,
 				setBefore: setBefore,
-				setAfter: setAfter
+				setAfter: setAfter,
+				indexFieldName: indexFieldName,
+				append: append
 			});
 		}, function (_ref4) {
 			var message = _ref4.message;
