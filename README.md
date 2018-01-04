@@ -162,6 +162,8 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 0.8.1
+- fix bug
 ### 0.8.0
 - A_LIST_REQUEST 新增参数：append，indexFieldName
 ### 0.7.2

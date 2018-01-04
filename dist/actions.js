@@ -47,7 +47,7 @@ exports.default = function (_ref) {
 		    _ref3$indexFieldName = _ref3.indexFieldName,
 		    indexFieldName = _ref3$indexFieldName === undefined ? 'id' : _ref3$indexFieldName,
 		    _ref3$append = _ref3.append,
-		    append = _ref3$append === undefined ? true : _ref3$append,
+		    append = _ref3$append === undefined ? false : _ref3$append,
 		    setBefore = _ref3.setBefore,
 		    setAfter = _ref3.setAfter;
 

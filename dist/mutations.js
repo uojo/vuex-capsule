@@ -96,17 +96,16 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 
 	var dd = eval('state.' + path);
 
-	if (append) {
+	if (append && indexFieldName) {
 		var itemsObj = {};
 		items.map(function (n) {
 			itemsObj[n[indexFieldName]] = n;
 		});
-		console.log("res.itemsObj", itemsObj);
 
 		var newItems = [];
 		dd.items.map(function (n) {
 			var td = itemsObj[n[indexFieldName]];
-			console.log(n[indexFieldName], td);
+
 			if (td) {
 				newItems.push(utils.fn.objAssign(n, td));
 				delete itemsObj[n[indexFieldName]];
@@ -119,7 +118,6 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 			newItems.push(itemsObj[k]);
 		}
 		rlt.items = newItems;
-		console.log(path, newItems);
 	}
 
 	utils.fn.objAssign(dd, rlt);
