@@ -1,37 +1,7 @@
 import deepAssign from 'deep-assign'
 import * as Types from './types'
-import {isObject,isPlainObject,isArray} from 'lodash'
-
-const utils = {
-	fn:{
-		mapDeep:function (data,callback){
-			if(typeof data ==='object'){
-				function _map(da){
-					for(var key in da){
-						var td = da[key];
-						// console.log(typeof td,td)
-						if( callback(td,key,da)!=false && typeof td==='object'){
-							_map(td)
-						}
-						
-					}
-				}
-				_map(data);
-			}
-			return data;
-		},
-		objAssign:function(dd,sd){
-			// console.log(dd,sd)
-			if(dd){
-				Object.assign(dd,sd)
-				// deepAssign(dd,sd)
-			}else{
-				console.warn('目标对象非法')
-			}
-			return dd;
-		}
-	}
-}
+import {isPlainObject,isArray} from 'lodash'
+import utils from './utils'
 
 export default {
 	
@@ -47,19 +17,19 @@ export default {
 		}
 		let dd = eval(`state.${path}`)
     utils.fn.objAssign(dd,rlt)
-    
+    // console.log(dd,rlt)
   },
-  [Types.M_LIST_RECEIVED]: (state, {path,response,setBefore,setAfter, indexFieldName, append}) => {
-    // Object.assign(state, payload)
-		let {items,pageBean} = response
+  [Types.M_LIST_RECEIVED]: (state, {path,response,payload,setBefore, setAfter, indexFieldName, append}) => {
+		let {items,pageBean} = response.results
     let rlt = {
       itemsStep:'onload',
       items,
       pageBean,
     };
+		// console.log(rlt);
 		
 		if(setBefore){
-			rlt = setBefore(rlt, response);
+			rlt = setBefore(rlt, response, payload);
 		}
 		// console.log("M_LIST_RECEIVED", path, rlt);
 		let dd = eval(`state.${path}`)
@@ -75,7 +45,7 @@ export default {
 			let newItems = []
 			dd.items.map(n=>{
 				let td = itemsObj[n[indexFieldName]];
-				// console.log(n[indexFieldName], td)
+				// console.log(n, td)
 				if( td ){
 					// 与本地数据重复
 					newItems.push(utils.fn.objAssign(n, td));
@@ -92,9 +62,10 @@ export default {
 			// console.log(path, newItems)
 		}
 		
+		// console.log(dd)
 		utils.fn.objAssign(dd, rlt);
 		
-    setAfter && setAfter(response)
+    setAfter && setAfter(response,payload)
 
   },
   [Types.M_LIST_ERROR]: (state, {path,message}) => {
@@ -112,17 +83,18 @@ export default {
 		stepField && eval(`state.${stepField}="loading"`)
 		
   },
-  [Types.M_MOD_RECEIVED]: (state, {path, stepField, res, setBefore}) => {
-    // console.log(state, res)
+  [Types.M_MOD_RECEIVED]: (state, payload) => {
+		let {path, stepField, response, setBefore} = payload;
+    // console.log(state, payload)
 		stepField && eval(`state.${stepField}="onload"`)
     
-    setBefore && (res = setBefore(res))
+    setBefore && (response = setBefore(response))
 		
 		let dd = path?eval(`state.${path}`):null
-    // console.log(dd, res)
+    // console.log(dd, response)
 		
-		if(dd && res){
-			utils.fn.objAssign(dd, res )
+		if(dd && response){
+			utils.fn.objAssign(dd, response.results )
 		}
     
   },
@@ -158,7 +130,7 @@ export default {
 		tasks.map( task=>{
 			
 			let {
-				path,operate,value,response, 
+				path,operate,value,response,payload,
 				matchValue,matchField,matchCallback,
 				depend
 			} = task;
@@ -173,14 +145,14 @@ export default {
 			let rlt;
 			
 			if(typeof value === 'function'){
-				value = value(dd,response)
+				value = value(dd, response,payload)
 			}
 			
 			if( operate==='match.set' ){
 				dd.map(el=>{
 					// console.log(el,el[matchField],matchValue)
 					if(el[matchField]===matchValue && matchCallback){
-						return matchCallback(el,response);
+						return matchCallback(el,response,payload);
 					}else{
 						return el;
 					}

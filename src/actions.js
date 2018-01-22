@@ -2,32 +2,56 @@ import * as Types from './types'
 
 export default ({request})=>{
 	// console.log(request)
-	let handle ={
-		[Types.A_LIST_REQUEST]: ({commit, state, dispatch}, {path,api,payload,indexFieldName='id',append=false,setBefore,setAfter}) => {
-			// console.log(path,api,payload)
-			commit(Types.M_LIST_LOADING, {path, append})
-			request('get', api, payload, response => {
-				commit(Types.M_LIST_RECEIVED, {
-					path,
-					response,
-					setBefore,
-					setAfter,
-					indexFieldName,
-					append
-				})
-			}, ({message}) => {
-				commit(Types.M_LIST_ERROR, { path, message })
-			})
+	let handle = {
+		[Types.A_LIST_REQUEST]: async ({commit, state, dispatch}, {path,api,payload,indexFieldName='id',append=false,setBefore,setAfter}) => {
+			// return new Promise( async (resolve, reject)=>{
+				// console.log(path,api,payload,append)
+				commit(Types.M_LIST_LOADING, {path, append})
+				// console.log(2)
+				
+				const complete_cb = (response)=>{
+					const {success,message} = response;
+					if(success){
+						commit(Types.M_LIST_RECEIVED, {
+							path,
+							response,payload,
+							setBefore,
+							setAfter,
+							indexFieldName,
+							append
+						})
+					}else{
+						commit(Types.M_LIST_ERROR, { path, message })
+					}
+					// resolve(response)
+				}
+				
+				let res_promise
+				try{
+					res_promise = request('get', api, payload);
+					res_promise.then(e=>{
+						complete_cb(e)
+					},e=>{
+						complete_cb(e)
+					})
+				}catch(e){
+					console.error(e)
+				}
+				// console.log(3,res_promise)
+				return res_promise;
+			// })
+
 		},
 
 		[Types.A_MOD_REQUEST]: ({commit, state, dispatch}, {api, path="",stepField="",errorField="", payload,setBefore}) => {
 			// console.log(api,path,payload)
 			commit(Types.M_MOD_LOADING, stepField)
-			request('get', api, payload, res => {
+			request('get', api, payload, response => {
+				// console.log(response)
 				commit(Types.M_MOD_RECEIVED, {
 					path,
 					stepField,
-					res,
+					response,
 					setBefore
 				})
 			}, ({message}) => {
@@ -41,86 +65,102 @@ export default ({request})=>{
 			const {api,payload={},redirectUrl,back,requestBeforeActions=[],requestAfterActions=[],requestSuccess,requestError,callback,stepField="",errorField="", method="post"} = data;
 
 			stepField && commit(Types.M_SEND_STEP,{stepField,value:"loading"})
-
 			if(requestBeforeActions.length){
 				let i = 0;
 				while(i<requestBeforeActions.length){
 					let el = Object.assign({
 						name:"",
-						payload:null,
+						payload:{},
 						async:true,
 						callback:null
-					},requestBeforeActions[i]), trlt;
-					let tfn = ()=> dispatch( el.name, (typeof el.payload==='function'?el.payload():el.payload) )
+					}, requestBeforeActions[i]), rlt_await;
+					let _payload = (typeof el.payload==='function')?el.payload():el.payload
 					if( el.async ){
-						tfn()
+						dispatch( el.name, _payload )
 					}else{
-						trlt = await tfn()
+						rlt_await = await dispatch( el.name, _payload );
+						if(rlt_await && !rlt_await.then ){
+							el.callback && el.callback(rlt_await, payload);
+						}
+						
 					}
-
-					el.callback && el.callback(trlt,payload)
-					i++
+					i++;
 				}
 			}
+			
+			return new Promise( async (reslove,reject)=>{
+				
+				const reqArgs = [method, api, payload, null, err =>{
+					requestError && requestError(err);
+					
+					let message = err.message;
+					stepField && commit(Types.M_SEND_STEP,{stepField,errorField,message,value:"error"})
+				}];
+				// console.log(reqArgs)
+				let res_promise = request.apply(this,reqArgs);
+				// console.log(res_promise)
+				
+				const complete_cb = (response)=>{
+					if(response){
+						requestSuccess && requestSuccess(response);
+						// console.log(response,success,message)
+						stepField && commit(Types.M_SEND_STEP,{stepField,value:"onload"})
 
-			let rlts;
-			await request(method, api, payload, res => {
-				requestSuccess && requestSuccess(res);
-				rlts = res;
-				// console.log(res,success,message)
-        stepField && commit(Types.M_SEND_STEP,{stepField,value:"onload"})
+						// console.log(requestAfterActions)
+						if(requestAfterActions.length){
+							(async ()=>{
+								let i = 0;
+								while(i<requestAfterActions.length){
+									let el = Object.assign({
+										name:"",
+										payload:null,
+										async:true,
+										callback:null
+									},requestAfterActions[i]), rlt_await;
+									let tfn = ()=> dispatch(el.name, (typeof el.payload==='function'?el.payload():el.payload) )
+									if( el.async ){
+										tfn()
+									}else{
+										rlt_await = await dispatch( el.name, _payload );
+										if(rlt_await && !rlt_await.then ){
+											el.callback && el.callback(rlt_await, payload);
+										}
+									}
+									i++
+								}
+							})()
+						}
+						
+						// 执行回调
+						if(callback){
+							if(typeof callback==='object'){
+								callback.response = response;
+								callback.payload = payload;
+								commit(Types.M_MOD_SET, callback)
+							}
+						}
 
-				// console.log(requestAfterActions)
-				if(requestAfterActions.length){
-					(async ()=>{
-						let i = 0;
-						while(i<requestAfterActions.length){
-							let el = Object.assign({
-								name:"",
-								payload:null,
-								async:true,
-								callback:null
-							},requestAfterActions[i]), trlt;
-							let tfn = ()=> dispatch(el.name, (typeof el.payload==='function'?el.payload():el.payload) )
-							if( el.async ){
-								tfn()
+						back && setTimeout(()=>{
+							if(typeof back==='string'){
+								location.hash=back;
 							}else{
-								trlt = await tfn()
+								window.history.go(-1)
 							}
 
-							el.callback && el.callback(trlt,payload)
-							i++
-						}
-					})()
+						},500)
+						redirectUrl && (window.location.hash = redirectUrl)
+					}
+					reslove(response);
 				}
 				
+				res_promise.then(e=>{
+					complete_cb(e)
+				},e=>{
+					complete_cb(e)
+				})
 				
-				
-				// 执行回调
-				if(callback){
-					if(typeof callback==='object'){
-						callback.response = res;
-						commit(Types.M_MOD_SET, callback)
-					}
-				}
-
-				back && setTimeout(()=>{
-					if(typeof back==='string'){
-						location.hash=back;
-					}else{
-						window.history.go(-1)
-					}
-
-				},500)
-				redirectUrl && (window.location.hash = redirectUrl)
-			}, err =>{
-				requestError && requestError(err);
-				
-			  let message = err.message;
-			  stepField && commit(Types.M_SEND_STEP,{stepField,errorField,message,value:"error"})
-      })
-
-			return rlts;
+			})
+			
 		},
 	}
 	return handle;

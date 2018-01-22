@@ -88,44 +88,44 @@ export default handle;
 ### Actions
 ```
 dispatch(Types.A_MOD_REQUEST, {
-    path:"", //+
-    api:"", //+
-    payload:{}, //?
-    setBefore(res){ //?
-    	console.log(res)
-    	return res;
-    },
-    stepField:"" //?
+	path:"", //+
+	api:"", //+
+	payload:{}, //?
+	setBefore(res){ //?
+		console.log(res)
+		return res;
+	},
+	stepField:"" //?
 })
 
 dispatch(Types.A_LIST_REQUEST, {
-    path:"", //+
-    api:"", //+
-    payload:{}, //?
-		append:false, //? 列表数据是否累加
-		indexFieldName:"id", //? 列表数据中唯一的“索引”字段名称
-    setBefore(td,res){ //?
-    	console.log(td,res)
-    	return td;
-    },
-    setAfter(res){ //?
-    	console.log(res)
-    }
+	path:"", //+
+	api:"", //+
+	payload:{}, //?
+	append:false, //? 列表数据是否累加
+	indexFieldName:"id", //? 列表数据中唯一的“索引”字段名称
+	setBefore(state,response,payload){ //?
+		console.log(state,response)
+		return state;
+	},
+	setAfter(response,payload){ //?
+		console.log(response,payload)
+	}
 })
 
 dispatch(Types.A_SEND_REQUEST,{
-    api:"", //+
-    payload:{}, //?
-    back:false, //?
-    redirectUrl:"", //?
-    stepField:"", //?
-    messageField:"", //?
-		requestSuccess:(res)=>{}, //? 发送ajax后，结果成功后执行的钩子
-		requestError:(err)=>{}, //? 发送ajax后，结果失败后执行的钩子
-    requestBeforeActions:[{async:true,name:"",payload:null,callback(actionResponse,payload){}}], //? 在标记请求开始之后，执行请求之前，需要执行 actions 队列
-    requestAfterActions:[{async:true,name:"",payload:null,callback(actionResponse,payload){}}], //? 在执行请求之后，callback 之前，需要执行 actions 队列
-    callback:{}, //? 参看 Types.M_MOD_SET 的参数
-    method:"post" //?
+	api:"", //+
+	payload:{}, //?
+	back:false, //?
+	redirectUrl:"", //?
+	stepField:"", //?
+	messageField:"", //?
+	requestSuccess:(res)=>{}, //? 发送ajax后，结果成功后执行的钩子
+	requestError:(err)=>{}, //? 发送ajax后，结果失败后执行的钩子
+	requestBeforeActions:[{async:true,name:"",payload:null,callback(actionResponse,payload){}}], //? 在标记请求开始之后，执行请求之前，需要执行 actions 队列
+	requestAfterActions:[{async:true,name:"",payload:null,callback(actionResponse,payload){}}], //? 在执行请求之后，callback 之前，需要执行 actions 队列
+	callback:{}, //? 参看 Types.M_MOD_SET 的参数
+	method:"post" //?
 })
 ```
 
@@ -134,34 +134,38 @@ dispatch(Types.A_SEND_REQUEST,{
 
 ```
 store.commit(Types.M_MOD_RESET,{
-    path:"", //+
-    data:{} //?
+	path:"", //+
+	data:{} //?
 })
 
 // 值可以是数组或对象
 commit(Types.M_MOD_SET,{
-    path:"a.b.items", //+
-    operate:"match.set|match.del|set|push", //?
-    depend:()=>{}, //? 返回 false 终止执行该任务
-    
-    // 当 operate 等于 set|push 时，如下 value 必填
-    value:"", //+
-    value(dd,response){ //?
-    	console.log(dd,response);
-    	return dd;
-    },
-    
-    // 当 operate 等于  match.set|match.del 时，以下字段必填
-    matchField:"", //+
-    matchValue:"", //+
-    matchCallback:(td, response)=>{ //?
-    	console.log(td, response)
-    	return td;
-    }
+	path:"a.b.items", //+
+	operate:"match.set|match.del|set|push", //?
+	depend:()=>{}, //? 返回 false 终止执行该任务
+	
+	// 当 operate 等于 set|push 时，如下 value 必填
+	value:"", //+
+	value(state,response,payload){ //?
+		console.log(state,response,payload);
+		return state;
+	},
+	
+	// 当 operate 等于  match.set|match.del 时，以下字段必填
+	matchField:"", //+
+	matchValue:"", //+
+	matchCallback:(matchOne, response, payload)=>{ //?
+		console.log(matchOne, response, payload)
+		return matchOne;
+	}
 });
 ```
 
 ## ChangeLog
+### 1.0.0
+- 优化代码，确保流程异步执行、回调参数补全以及bug修复
+### 0.9.0
+- 修改 package.json ，添加 files、module 字段
 ### 0.8.1
 - fix bug
 ### 0.8.0
