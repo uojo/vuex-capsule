@@ -1,9 +1,13 @@
-# Vuex-capsule
+# vuex-capsule
 
 依赖 Vuex2，简化 vuex 在项目中的应用编码，抽象 vuex 中常用逻辑，定义了通用的 mutations、actions、types。
+## 安装
+```
+npm i --save vuex-capsule
+```
 
 ## 准备
-使用的接口规范必须按照如下结构返回，接口规则可[参考](https://github.com/uojo/Interface-Specfication)：
+使用的接口规范必须按照如下结构返回，可参考[接口规则](https://github.com/uojo/Interface-Specfication)：
 ```
 // 单个实体
 {
@@ -53,7 +57,7 @@ export default {
   ...vuexCapsule.createActions({request: sysHttp.req})
 }
 ```
-> `utils/http.js` 的实现[参考](https://github.com/uojo/vuex-capsule/blob/master/examples/https.js)。具体代码可自定义实现，关键在于回调是传入的数据。
+> `utils/http.js` 的实现[参考](https://github.com/uojo/vuex-capsule/blob/master/examples/https.js)。具体代码可自定义实现，关键在于回调是传入的数据。
 
 
 ### Mutations
