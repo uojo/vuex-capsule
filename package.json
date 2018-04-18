@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/uojo/vuex-capsule/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/uojo/vuex-capsule",
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-plugin-transform-async-to-generator": "6.24.1",
