@@ -1,10 +1,10 @@
 {
   "name": "vuex-capsule",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "简化 vuex 在项目中的应用编码，抽象 vuex 中常用逻辑，定义了通用的 mutations、actions、types",
   "keywords": [
     "vuex",
-    "uojo"
+    "vue"
   ],
   "scripts": {
     "build": "babel src --out-dir dist"
