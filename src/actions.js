@@ -7,7 +7,6 @@ export default ({request})=>{
 			// return new Promise( async (resolve, reject)=>{
 				// console.log(path,api,payload,append)
 				commit(Types.M_LIST_LOADING, {path, append})
-				// console.log(2)
 				
 				const complete_cb = (response)=>{
 					const {success,message} = response;
@@ -37,7 +36,6 @@ export default ({request})=>{
 				}catch(e){
 					console.error(e)
 				}
-				// console.log(3,res_promise)
 				return res_promise;
 			// })
 
