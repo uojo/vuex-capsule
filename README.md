@@ -137,7 +137,7 @@ dispatch(Types.A_SEND_REQUEST,{
     }
   ], //? 在执行请求之后，callback 之前，需要执行 actions 队列
   callback:{}, //? 参看 Types.M_MOD_SET 的参数
-  method:"post" //?
+  method:"post" //? 默认值 post，支持的类型与 http.js 提供的 method 字段一致
 })
 ```
 
