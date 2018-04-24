@@ -149,7 +149,7 @@ export default {
 			}
 			
 			if( operate==='match.set' ){
-				dd.map(el=>{
+				dd = dd.map(el=>{
 					// console.log(el,el[matchField],matchValue)
 					if(el[matchField]===matchValue && matchCallback){
 						return matchCallback(el,response,payload);
@@ -158,6 +158,7 @@ export default {
 					}
 					
 				})
+				eval(`state.${path}=dd`);
 
 			}else if(operate==='match.del'){
 				rlt = eval(`state.${path}`).filter( (el,i)=>{
