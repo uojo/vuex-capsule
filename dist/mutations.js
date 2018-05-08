@@ -182,13 +182,14 @@ exports.default = (_Types$M_LIST_LOADING = {}, (0, _defineProperty3.default)(_Ty
 		}
 
 		if (operate === 'match.set') {
-			dd.map(function (el) {
+			dd = dd.map(function (el) {
 				if (el[matchField] === matchValue && matchCallback) {
 					return matchCallback(el, response, payload);
 				} else {
 					return el;
 				}
 			});
+			eval('state.' + path + '=dd');
 		} else if (operate === 'match.del') {
 			rlt = eval('state.' + path).filter(function (el, i) {
 				if (el[matchField] !== matchValue) {
