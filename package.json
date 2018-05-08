@@ -1,9 +1,10 @@
 {
   "name": "vuex-capsule",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "简化 vuex 在项目中的应用编码，抽象 vuex 中常用逻辑，定义了通用的 mutations、actions、types",
   "keywords": [
     "vuex",
+    "action",
     "vue"
   ],
   "scripts": {
@@ -13,7 +14,10 @@
     "type": "git",
     "url": "https://github.com/uojo/vuex-capsule"
   },
-  "files": ["src","dist"],
+  "files": [
+    "src",
+    "dist"
+  ],
   "main": "dist/index.js",
   "module": "src/index.js",
   "author": "uojonet@163.com",
