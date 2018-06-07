@@ -174,6 +174,8 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 1.1.1
+- mods.js 新增 createEntity 方法，用于生成默认实体结构
 ### 1.1.0
 - 删除 package.json 内 module 字段
 ### 1.0.3
