@@ -46,30 +46,28 @@ utils/request.js
 ```javascript
 import axios from 'axios'
 
-export default {
-  req: function (method, url = '', data = {}, success = null, error = null) {
-    let payload = method === 'get' ? {params: data} : data
+export default function (method, url = '', data = {}, success = null, error = null) {
+  let payload = method === 'get' ? {params: data} : data
 
-    axios[method](url, payload)
-      .then(response => {
-        // 指定接口结构
-        let res = Object.assign({
-          success: true,
-          results: {}
-        }, response)
-        // 执行回调
-        success(res)
-      })
-      .catch(error => {
-        // 指定接口结构
-        let err = Object.assign({
-          success: false,
-          message: ''
-        }, error)
-        // 执行回调
-        error(err)
-      })
-  }
+  axios[method](url, payload)
+    .then(response => {
+      // 指定接口结构
+      let res = Object.assign({
+        success: true,
+        results: {}
+      }, response)
+      // 执行回调
+      success(res)
+    })
+    .catch(error => {
+      // 指定接口结构
+      let err = Object.assign({
+        success: false,
+        message: ''
+      }, error)
+      // 执行回调
+      error(err)
+    })
 }
 ```
 以上代码可修改，关键点在于传入参数的限定。
@@ -93,7 +91,7 @@ let options = {
     entityA:{
       state:{
         index: {
-          ...vuexCapsule.createEntity('list')
+          ...vuexCapsule.createEntity('collection')
         },
         create: {
           ...vuexCapsule.createEntity('single')
@@ -212,6 +210,13 @@ options [Object]
 
 ### 预置 Actions
 即使不使用面向实体的操作，例如初始化时不传入 `apiMap`、`apiRestful`，以及不使用 `handleEntity` 方法。只要初始化成功后，store 将会预定义一些 `action` 如下。
+|名称|说明|
+|---|---|
+|entitySync|同步远端数据到本地，`method:get`
+|collectionSync|同步远端集合数据到本地，`method:get`
+|entitySend|发送本地数据到远端，`method:delete|put|post`
+|entitySet|设置 state 某条记录的数据
+|entityReset|重置 state 某条记录的数据
 
 以下示例注释说明规则： `+` 必填，`?` 可选
 
