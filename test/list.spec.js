@@ -77,7 +77,7 @@ describe('vuex action', () => {
     let itemsInitLength = ['update', 'delete'].includes(operate) ? 1 : 0
     expect(stateBase.index.items.length).toEqual(itemsInitLength)
     // 初始状态
-    expect(stateBase.index.itemsStep).toEqual('')
+    expect(stateBase.index.step).toEqual('')
 
     let payloadMap = {
       index: {},
@@ -108,11 +108,11 @@ describe('vuex action', () => {
       }
 
       // 状态
-      expect(stateBase.index.itemsStep).toEqual('done')
+      expect(stateBase.index.step).toEqual('done')
       done()
     })
     // 正在处理
-    expect(stateBase.index.itemsStep).toEqual('progress')
+    expect(stateBase.index.step).toEqual('progress')
     // request 被执行
     let methodMap = {
       index: 'get',
