@@ -1,6 +1,6 @@
 // action
-export const ENTITY = 'entity'
-export const ENTITY_LIST = 'entity/collection'
+// export const ENTITY = 'entity' // rename: entityOperate
+// export const ENTITY_LIST = 'entity/collection' // rename: collectionOperate
 // action
 export const STEP_SET = 'step/set'
 // mutation

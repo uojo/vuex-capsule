@@ -50,7 +50,7 @@ export default (options) => {
     },
 
     // 实体集合
-    [Types.ENTITY_LIST]: async ({commit, state, dispatch}, actionPayload) => {
+    'collectionOperate': async ({commit, state, dispatch}, actionPayload) => {
       // operate: index,create,delete,update
       // let mainResult
       let {operate = 'index', payload} = actionPayload
@@ -151,7 +151,7 @@ export default (options) => {
     },
 
     // 单一实体
-    [Types.ENTITY]: async ({commit, state, dispatch}, actionPayload) => {
+    'entityOperate': async ({commit, state, dispatch}, actionPayload) => {
       // operate: index,create,delete,update,read,reset
       let mainResult = { message: '' }
       actionPayload.operate = actionPayload.operate || 'index'

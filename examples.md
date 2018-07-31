@@ -1,11 +1,11 @@
-# examples [restful]
+# examples [restful=true]
 根据实体管理 state
 ## collection-A
 ### api
 `/entities/:id`
 ### state
 ```javascript
-import vuexCapsule from '@/lib/vuex-capsule'
+import vuexCapsule from 'vuex-capsule'
 entity:{
   index:{
     ...vuexCapsule.createEntity('collection')
@@ -14,7 +14,7 @@ entity:{
 ```
 ### method
 ```javascript
-dispatch(Types.ENTITY_LIST, {name: entity, operate, payload})
+dispatch("collectionOperate", {name: entity, operate, payload})
 ```
 #### name {string} ['']
 对应 state 定义的实体名称。
@@ -37,7 +37,7 @@ dispatch(Types.ENTITY_LIST, {name: entity, operate, payload})
 `/entities/:entity_id/attribute/:attribute_id`
 ### state
 ```javascript
-import vuexCapsule from '@/lib/vuex-capsule'n
+import vuexCapsule from 'vuex-capsule'n
 entity:{
   attribute:{
     index:{
@@ -48,7 +48,7 @@ entity:{
 ```
 ### method
 ```javascript
-dispatch(Types.ENTITY_LIST, {name: entity, attribute, operate, payload})
+dispatch("collectionOperate", {name: entity, attribute, operate, payload})
 ```
 #### name {string} ['']
 对应 state 定义的实体名称。
@@ -75,7 +75,7 @@ dispatch(Types.ENTITY_LIST, {name: entity, attribute, operate, payload})
 `/entities/:id`
 ### state
 ```javascript
-import vuexCapsule from '@/lib/vuex-capsule'
+import vuexCapsule from 'vuex-capsule'
 entity:{
   update: {
     ...vuexCapsule.createEntity('single')
@@ -93,7 +93,7 @@ entity:{
 ```
 ### method
 ```javascript
-dispatch(Types.ENTITY, {name: entity, operate, payload})
+dispatch("entityOperate", {name: entity, operate, payload})
 ```
 #### name {string} ['']
 对应 state 定义的实体名称。
@@ -116,7 +116,7 @@ dispatch(Types.ENTITY, {name: entity, operate, payload})
 `/entities/:entity_id/attribute/:attribute_id`
 ### state
 ```javascript
-import vuexCapsule from '@/lib/vuex-capsule'
+import vuexCapsule from 'vuex-capsule'
 entity:{
   attribute:{
     update: {
@@ -136,7 +136,7 @@ entity:{
 ```
 ### method
 ```javascript
-dispatch(Types.ENTITY, {name: entity, operate, payload})
+dispatch("entityOperate", {name: entity, operate, payload})
 ```
 #### name {string} ['']
 对应 state 定义的实体名称。

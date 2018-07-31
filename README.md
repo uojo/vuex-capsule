@@ -212,6 +212,8 @@ options [Object]
 即使不使用面向实体的操作，例如初始化时不传入 `apiMap`、`apiRestful`，以及不使用 `handleEntity` 方法。只要初始化成功后，store 将会预定义一些 `action` 如下。
 |名称|说明|
 |---|---|
+|entityOperate|单一实体的操作
+|collectionOperate|实体集合的操作
 |entitySync|同步远端数据到本地，`method:get`
 |collectionSync|同步远端集合数据到本地，`method:get`
 |entitySend|发送本地数据到远端，`method:delete|put|post`
@@ -221,6 +223,20 @@ options [Object]
 以下示例注释说明规则： `+` 必填，`?` 可选
 
 ```javascript
+dispatch("entityOperate", {
+  name:"", //+ 实体名称
+  attribute:"", //? 实体属性，与请求时的 url 与 state.path 关联
+  operate:"", //? 实体操作
+  payload:{}, //? 同步数据时（request）携带的数据
+})
+
+dispatch("collectionOperate", {
+  name:"", //+ 实体名称
+  attribute:"", //? 集合实体属性，与请求时的 url 与 state.path 关联
+  operate:"", //? 集合实体操作
+  payload:{}, //? 同步数据时（request）携带的数据
+})
+
 dispatch("entitySync", {
   path:"", //+
   api:"", //+
