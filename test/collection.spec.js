@@ -20,12 +20,12 @@ describe('vuex action', () => {
       state: {
         // 保留字段
         index: {
-          ...vuexCapsule.createEntity('list')
+          ...vuexCapsule.createEntity('collection')
         },
         // 自定义属性
         taste: {
           index: {
-            ...vuexCapsule.createEntity('list')
+            ...vuexCapsule.createEntity('collection')
           }
         }
       }

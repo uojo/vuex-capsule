@@ -255,7 +255,7 @@ export default ({apiMap, entityInfo}) => {
     const stateBasePath = [form].concat(statePath.basePath)
     const stateOperatePath = [form].concat(statePath.operatePath)
     // log(stateBasePath, stateOperatePath)
-    if (form === 'list') {
+    if (form === 'collection') {
       // 列表实体
       for (let _op of ['index', 'create', 'delete', 'update']) {
         let _prefixMutationName = stateBasePath.concat(_op)

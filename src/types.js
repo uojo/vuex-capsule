@@ -1,16 +1,16 @@
 // action
 export const ENTITY = 'entity'
-export const ENTITY_LIST = 'entity/list'
+export const ENTITY_LIST = 'entity/collection'
 // action
 export const STEP_SET = 'step/set'
 // mutation
 export const STEP_SET_DONE = 'step/set/done'
 // action
-// export const LIST_REQUEST = 'entity/list/request'  => rename: collectionSync
+// export const LIST_REQUEST = 'entity/collection/request'  => rename: collectionSync
 // mutation
-export const M_LIST_LOADING = 'entity/list/request/loading'
-export const M_LIST_RECEIVED = 'entity/list/request/received'
-export const M_LIST_ERROR = 'entity/list/request/error'
+export const M_LIST_LOADING = 'entity/collection/request/loading'
+export const M_LIST_RECEIVED = 'entity/collection/request/received'
+export const M_LIST_ERROR = 'entity/collection/request/error'
 // action
 // export const MOD_REQUEST = 'entity/get/request'  => rename: entitySync
 // mutation

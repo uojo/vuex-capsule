@@ -1,6 +1,6 @@
 # examples [restful]
 根据实体管理 state
-## list-A
+## collection-A
 ### api
 `/entities/:id`
 ### state
@@ -8,7 +8,7 @@
 import vuexCapsule from '@/lib/vuex-capsule'
 entity:{
   index:{
-    ...vuexCapsule.createEntity('list')
+    ...vuexCapsule.createEntity('collection')
   }
 }
 ```
@@ -32,7 +32,7 @@ dispatch(Types.ENTITY_LIST, {name: entity, operate, payload})
 `payload.id`：当 operate 为 `delete`、`update` 时， 必填。
 
 
-## list-B
+## collection-B
 ### api
 `/entities/:entity_id/attribute/:attribute_id`
 ### state
@@ -41,7 +41,7 @@ import vuexCapsule from '@/lib/vuex-capsule'n
 entity:{
   attribute:{
     index:{
-      ...vuexCapsule.createEntity('list')
+      ...vuexCapsule.createEntity('collection')
     }
   }
 }

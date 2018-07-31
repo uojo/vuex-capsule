@@ -19,7 +19,7 @@ const handle = (options) => {
     // log(mutationPrefix.join('/'))
     // log(api.url)
     switch (form) {
-      case 'list':
+      case 'collection':
         if (operate === 'index') {
           rlt = checkMutationName(options, true, {
             progress: convertMutationName('progress'),

@@ -19,13 +19,13 @@ export default ({state, form}, {name = '', attribute = '', operate = 'index', pa
     // eq ~:[name,attribute]
     let stateOperatePath, stateOperateBasePath, stateOperateDataPath
     // eq ~:[name,attribute,operate]
-    if (form === 'list') {
+    if (form === 'collection') {
       stateOperatePath = statePath.operatePath
       // eq [~,{index|create|delete|update}]
       stateOperateBasePath = stateBasePath.concat(['index'])
-      // eq list:[~,index]
+      // eq collection:[~,index]
       stateOperateDataPath = stateOperateBasePath.concat(['items'])
-      // eq list:[~,index,items];
+      // eq collection:[~,index,items];
     } else {
       stateOperatePath = statePath.operatePath
       // eq [~,{reset|create|delete|update|read}]
@@ -61,7 +61,7 @@ export default ({state, form}, {name = '', attribute = '', operate = 'index', pa
       }
 
       // 检查 stepPath
-      checkStatePath = form === 'list' ? stateBasePath.concat(['index', 'step']) : stateOperateBasePath.concat('step')
+      checkStatePath = form === 'collection' ? stateBasePath.concat(['index', 'step']) : stateOperateBasePath.concat('step')
       tempResult = statePathError(state, checkStatePath)
       if (tempResult) {
         message = tempResult.message
@@ -72,7 +72,7 @@ export default ({state, form}, {name = '', attribute = '', operate = 'index', pa
       let api = entityApi({name, operate, attribute, payload, form, apiMap, apiRestful})
       // 检查实体的 api
       if (!api.url) {
-        if (form === 'list' || (form === 'single' && !['update', 'reset'].includes(operate))) {
+        if (form === 'collection' || (form === 'single' && !['update', 'reset'].includes(operate))) {
           message = `实体 "${JSON.stringify({name, attribute, operate})}" 的 API 不能为空`
           return {message}
         }

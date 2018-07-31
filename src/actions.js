@@ -27,7 +27,7 @@ export default (options) => {
         stepFieldValue = 'error'
       } else if (allStep.includes(type)) {
         stepFieldValue = type
-        /* if (form === 'list') {
+        /* if (form === 'collection') {
           if (type === 'reset') {
             stepFieldValue = operatedStepMap['reset']
           } else if (type === 'progress') {
@@ -54,7 +54,7 @@ export default (options) => {
       // operate: index,create,delete,update
       // let mainResult
       let {operate = 'index', payload} = actionPayload
-      let entityInfo = checkEntityArgs({state, form: 'list'}, actionPayload, options)
+      let entityInfo = checkEntityArgs({state, form: 'collection'}, actionPayload, options)
       // log(entityInfo)
       // 检查实体必要元素
       if (entityInfo.message) {
@@ -66,7 +66,7 @@ export default (options) => {
       let stepFieldName = 'step'
       let errorFieldName = 'errorMessage'
       const changeStep = (type, message) => dispatch(Types.STEP_SET, {
-        form: 'list',
+        form: 'collection',
         type,
         operate,
         stateOperateBasePath,
@@ -74,7 +74,7 @@ export default (options) => {
         errorFieldName,
         message,
         entityInfo})
-      let mutationMap = mutationAlias({form: 'list', operate, entityInfo})
+      let mutationMap = mutationAlias({form: 'collection', operate, entityInfo})
       // log(mutationMap)
 
       // 开始
@@ -219,7 +219,7 @@ export default (options) => {
       return Promise.resolve(mainResult)
     },
 
-    // 获取列表数据
+    // 获取列表数据,method:get
     'collectionSync': async ({commit, state, dispatch}, {mutationMap, path, api, payload, indexFieldName = 'id', append = false, setBefore, setAfter}) => {
       // log({mutationName,path,api,payload,append})
       // log(state)
@@ -238,7 +238,7 @@ export default (options) => {
           const {success, message} = response
           mainResult.response = response
           // 验证数据结构
-          let responseErrorMsg = responseError('list', api, response)
+          let responseErrorMsg = responseError('collection', api, response)
           // log(responseErrorMsg)
           if (responseErrorMsg) {
             mainResult.message = responseErrorMsg

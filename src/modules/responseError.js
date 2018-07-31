@@ -9,7 +9,7 @@ export default (type, url, res) => {
 
   // 数据
   let message = ''
-  if (type === 'list') {
+  if (type === 'collection') {
     let {results} = res
     if (results === undefined) {
       message = `response.results is undefined, url:${url}`
