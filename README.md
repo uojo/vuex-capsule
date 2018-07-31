@@ -1,15 +1,18 @@
 # vuex-capsule
 
-依赖 Vuex2，简化 vuex 在项目中的应用编码，抽象 vuex 中常用逻辑，定义了通用的 mutations、actions、types。
+依赖 Vuex2，简化 vuex 在项目中的应用编码，抽象 vuex 中常用逻辑，定义了通用的 mutations、actions。
+
 ## 安装
-```
+```javascript
 npm i --save vuex-capsule
 ```
 
 ## 准备
+
+### 接口的定义
 使用的接口规范必须按照如下结构返回，可参考[接口规则](https://github.com/uojo/Interface-Specfication)：
-```
-// 单个实体
+```javaScript
+// 单一实体
 {
   "success":true,
   "results":{
@@ -17,7 +20,7 @@ npm i --save vuex-capsule
     "name":"apple"
   }
 }
-// 列表数据
+// 集合实体
 {
   "success":true,
   "results":{
@@ -30,62 +33,190 @@ npm i --save vuex-capsule
   "message":"error messages ..."
 }
 ```
+关键在于字段 `success` 和 `message`，如果接口不能提供，那么请通过传入的 `request` 方法自行转化。
+
 
 ## 部署
 因为基于 Vuex，所以需要在您的项目中导入包内预置数据
 
-### State
-将预定义实体导入 `state.js` 。
-```
-import vuexCapsule from 'vuex-capsule'
+### Request
+包内需要使用请求方法，所以请传入，示例如下。
+
+utils/request.js
+```javascript
+import axios from 'axios'
+
 export default {
-  mainList: {
-    ...vuexCapsule.mods.list
+  req: function (method, url = '', data = {}, success = null, error = null) {
+    let payload = method === 'get' ? {params: data} : data
+
+    axios[method](url, payload)
+      .then(response => {
+        // 指定接口结构
+        let res = Object.assign({
+          success: true,
+          results: {}
+        }, response)
+        // 执行回调
+        success(res)
+      })
+      .catch(error => {
+        // 指定接口结构
+        let err = Object.assign({
+          success: false,
+          message: ''
+        }, error)
+        // 执行回调
+        error(err)
+      })
   }
 }
 ```
-实体包括
-- `mods.list`：列表实体
+以上代码可修改，关键点在于传入参数的限定。
 
-### Actions
-导入预定义 actions 到 `action.js` 。
-```
+### Store
+将初始化的 store 参数传入。
+
+utils/request.js
+```javascript
+import Vue from 'vue'
+import Vuex from 'vuex'
 import vuexCapsule from 'vuex-capsule'
-import sysHttp from 'utils/http'
+import sysRequest from 'utils/request'
 
-export default {
-  ...vuexCapsule.createActions({request: sysHttp.req})
-}
-```
-> `utils/http.js` 的实现[参考](https://github.com/uojo/vuex-capsule/blob/master/examples/https.js)。具体代码可自定义实现，关键在于回调是传入的数据。
+Vue.use(Vuex)
 
+// 常规 store 配置参数
+let options = {
+  modules:{
+    // 示例代码
+    entityA:{
+      state:{
+        index: {
+          ...vuexCapsule.createEntity('list')
+        },
+        create: {
+          ...vuexCapsule.createEntity('single')
+        },
+        delete: {
+          ...vuexCapsule.createEntity('single')
+        },
+        update: {
+          ...vuexCapsule.createEntity('single')
+        },
+        read: {
+          ...vuexCapsule.createEntity('single')
+        }
+      }
+    },
+    entityB:{
+      state:{
+        index: {
+          ...vuexCapsule.createEntity('single')
+        }
+      }
+    }
+  },
+  state,
+  getters,
+  mutations,
+  actions
+} 
 
-### Mutations
-```
-import vuexCapsule from 'vuex-capsule'
+// 接口是否使用 restful 规则
+let apiRestful = true
 
-export default {
-  ...vuexCapsule.mutations
+const store = new Vuex.Store(vuexCapsule.init({
+  "storeOptions": options,
+  "request": sysRequest ,
 
-}
-```
+  // 面向实体操作时必传参数
+  "apiMap": apiRestful? {
+    "entityA": '/data/a' // 增删改查均使用同一个 url
+  }:{
+    "entityA": {
+      "index":'/data/a', // 默认返回数据
+      "create":'/data/a/create', // 增
+      "delete":'/data/a/delete', // 删
+      "update":'/data/a/update', // 改
+      "read":'/data/a/read', // 查
+    }
+  },
+  apiRestful
+}))
 
-### Types
-与项目内定义的常量集合合并
+vuexCapsule.setStore(store)
 
-```
-import vuexCapsule from 'vuex-capsule'
-let handle = Object.assign({}, vuexCapsule.types)
-export default handle;
+export default store
 ```
 
 ## 使用
-预定义如下，供调用
-> 以下示例内暴露的参数说明规则： `+` 必填，`?` 可选
+经过代码的初始设置后，日常对于实体的操作代码如下所示。
+```javascript
+import {handleEntity} from 'vuex-capsule'
 
-### Actions
+// 获取集合实体数据，operate = index
+handleEntity({type: 'collection', name: 'entityA'})
+
+// 获取单一实体数据，type=single, operate = index
+handleEntity({name: 'entityB'})
 ```
-dispatch(Types.A_MOD_REQUEST, {
+name 的值与 state 内的名称一致，数据修改也将写入到 state.{entityName}.{operate} ,详细使用可参看测试代码。
+
+### 参数说明
+
+#### createEntity(type, data)
+预制实体数据结构
+
+type [String] , 可选值：collection、single
+
+data [Object] , 自定义实体字段结构。
+
+```javascript
+//单一实体
+let singleData = createEntity("single",{"data":{"a":1,"b":2}})
+expect(singleData).to.equal({
+  "errorMessage": "",
+  "data": {"a":1, "b":2},
+  "operate": "", // 可选值：index、create、delete、update、read
+  "source": "capsule", // 固定值
+  "type": "", // 可选值：collection、single
+  "step": "", // 可选值：progress、done、error
+})
+
+// 集合实体
+let collectionData = createEntity("collection")
+expect(collectionData).to.equal({
+  "items": [],
+  "pageBean": {totalCount: 0, pageSize: 10, pageNo: 1},
+  "errorMessage": '',
+  "itemsStep": '', // 操作状态
+  "operate": '' // 可选值：index、create、delete、update
+})
+```
+
+
+#### handleEntity(options)
+对 `state` 的实体进行操作
+
+options [Object]
+
+|字段|必填|类型|默认值|说明|
+|---|---|---|---|---|
+|name|true|string|-|实体名称，与 `state` 内定义名称一致
+|type|false|string|single| 可选值：collection、single
+|operate|false|string|index| 可选值：index、create、delete、update、read
+|payload|false|object|-|请求时携带的数据对象
+> 实体依据 operate 自动对请求时的 url、method 进行定义。
+
+
+### 预置 Actions
+即使不使用面向实体的操作，例如初始化时不传入 `apiMap`、`apiRestful`，以及不使用 `handleEntity` 方法。只要初始化成功后，store 将会预定义一些 `action` 如下。
+
+以下示例注释说明规则： `+` 必填，`?` 可选
+
+```javascript
+dispatch("entitySync", {
   path:"", //+
   api:"", //+
   payload:{}, //?
@@ -96,12 +227,12 @@ dispatch(Types.A_MOD_REQUEST, {
   stepField:"" //?
 })
 
-dispatch(Types.A_LIST_REQUEST, {
+dispatch("collectionSync", {
   path:"", //+
   api:"", //+
   payload:{}, //?
-  append:false, //? 列表数据是否累加
-  indexFieldName:"id", //? 列表数据中唯一的“索引”字段名称
+  append:false, //? 集合数据是否累加
+  indexFieldName:"id", //? 集合数据中唯一的“索引”字段名称
   setBefore(state,response,payload){ //?
     console.log(state,response)
     return state;
@@ -111,7 +242,7 @@ dispatch(Types.A_LIST_REQUEST, {
   }
 })
 
-dispatch(Types.A_SEND_REQUEST,{
+dispatch("entitySend", {
   api:"", //+
   payload:{}, //?
   back:false, //?
@@ -139,19 +270,15 @@ dispatch(Types.A_SEND_REQUEST,{
   callback:{}, //? 参看 Types.M_MOD_SET 的参数
   method:"post" //? 默认值 post，支持的类型与 http.js 提供的 method 字段一致
 })
-```
 
-
-### Muations
-
-```
-store.commit(Types.M_MOD_RESET,{
+// 实体数据重置
+dispatch("entityReset", {
   path:"", //+
   data:{} //?
 })
 
 // 值可以是数组或对象
-commit(Types.M_MOD_SET,{
+dispatch("entitySet", {
   path:"a.b.items", //+
   operate:"match.set|match.del|set|push", //?
   depend:()=>{}, //? 返回 false 终止执行该任务
@@ -174,6 +301,8 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 2.0.0
+- 代码重构，围绕单一实体、集合实体简化使用与配置。
 ### 1.1.1
 - mods.js 新增 createEntity 方法，用于生成默认实体结构
 ### 1.1.0

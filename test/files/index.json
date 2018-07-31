@@ -1,0 +1,21 @@
+{
+  "success": true,
+  "results": {
+    "items": [{
+      "id": "1",
+      "name": "a"
+    }, {
+      "id": "2",
+      "name": "b"
+    }, {
+      "id": "3",
+      "name": "c"
+    }],
+    "pageBean": {
+      "pageNo": 1,
+      "pageSize": 10,
+      "totalCount": 100
+    }
+  },
+  "_query": {}
+}
