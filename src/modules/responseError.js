@@ -18,9 +18,9 @@ export default (type, url, res) => {
       if (items === undefined) {
         message = `response.results.items is undefined, url:${url}`
       }
-      if (pageBean === undefined) {
+      /* if (pageBean === undefined) {
         message = `response.results.pageBean is undefined, url:${url}`
-      }
+      } */
     }
   } else if (type === 'create') {
     let {results} = res
