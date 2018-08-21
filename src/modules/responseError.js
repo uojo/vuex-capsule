@@ -14,7 +14,7 @@ export default (type, url, res) => {
     if (results === undefined) {
       message = `response.results is undefined, url:${url}`
     } else {
-      let {items, pageBean} = results
+      let {items} = results
       if (items === undefined) {
         message = `response.results.items is undefined, url:${url}`
       }
