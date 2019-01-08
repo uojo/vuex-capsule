@@ -322,24 +322,24 @@ export default (options) => {
       // log(mutationMap)
       // 前置 actions 执行
       if (requestBeforeActions.length) {
-        let i = 0
-        while (i < requestBeforeActions.length) {
+        for (let it of requestBeforeActions) {
           let el = Object.assign({
             name: '',
             payload: {},
+            async: true,
             callback: null
-          }, requestBeforeActions[i])
-          let awaitRlt
-          let _payload = (typeof el.payload === 'function') ? el.payload() : el.payload
+          }, it)
+          let tp = (typeof el.payload === 'function') ? el.payload() : el.payload
           if (el.async) {
-            dispatch(el.name, _payload)
+            // 异步
+            dispatch(el.name, tp)
           } else {
-            awaitRlt = await dispatch(el.name, _payload)
+            // 同步
+            let awaitRlt = await dispatch(el.name, tp)
             if (awaitRlt && !awaitRlt.then) {
               el.callback && el.callback(awaitRlt, payload)
             }
           }
-          i++
         }
       }
 
@@ -355,35 +355,30 @@ export default (options) => {
           resolve(mainResult)
         }]
 
-        const completeCallback = (response) => {
+        const completeCallback = async (response) => {
           // log(response)
           if (response) {
             requestSuccess && requestSuccess(response)
 
             // log(requestAfterActions)
             if (requestAfterActions.length) {
-              (async () => {
-                let i = 0
-                while (i < requestAfterActions.length) {
-                  let el = Object.assign({
-                    name: '',
-                    payload: null,
-                    callback: null
-                  }, requestAfterActions[i])
-                  let awaitRlt
-                  let _payload = (typeof el.payload === 'function' ? el.payload() : el.payload)
-                  let tfn = () => dispatch(el.name, _payload)
-                  if (el.async) {
-                    tfn()
-                  } else {
-                    awaitRlt = await dispatch(el.name, _payload)
-                    if (awaitRlt && !awaitRlt.then) {
-                      el.callback && el.callback(awaitRlt, payload)
-                    }
+              for (let it of requestAfterActions) {
+                let el = Object.assign({
+                  name: '',
+                  payload: null,
+                  async: true,
+                  callback: null
+                }, it)
+                let tp = (typeof el.payload === 'function') ? el.payload() : el.payload
+                if (el.async) {
+                  dispatch(el.name, tp)
+                } else {
+                  let awaitRlt = await dispatch(el.name, tp)
+                  if (awaitRlt && !awaitRlt.then) {
+                    el.callback && el.callback(awaitRlt, payload)
                   }
-                  i++
                 }
-              })()
+              }
             }
 
             // 执行回调

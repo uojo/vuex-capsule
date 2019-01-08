@@ -322,6 +322,8 @@ dispatch("entitySet", {
 ```
 
 ## ChangeLog
+### 2.0.2
+- fix 修复 requestBeforeActions、requestAfterActions
 ### 2.0.1
 - fix，当返回的数据为列表时，接口中 pageBean 字段非必要。
 ### 2.0.0
