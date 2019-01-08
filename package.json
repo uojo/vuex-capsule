@@ -1,6 +1,6 @@
 {
   "name": "vuex-capsule",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "简化 vuex 在项目中的应用编码，抽象 vuex 中常用逻辑，定义了通用的 mutations、actions、types",
   "keywords": [
     "vuex",

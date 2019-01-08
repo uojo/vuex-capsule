@@ -141,7 +141,6 @@ dispatch(Types.A_SEND_REQUEST,{
 })
 ```
 
-
 ### Muations
 
 ```
@@ -174,6 +173,9 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 1.2.0
+- feature 自定义的 action 支持 await 执行
+- fix 修复参数 requestAfterActions 
 ### 1.1.1
 - mods.js 新增 createEntity 方法，用于生成默认实体结构
 ### 1.1.0
