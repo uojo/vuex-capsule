@@ -528,11 +528,11 @@ export default (function (options) {
           dispatch = _ref14.dispatch;
       var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-      var mutationMap, api, _data$payload, payload, redirectUrl, back, _data$requestBeforeAc, requestBeforeActions, _data$requestAfterAct, requestAfterActions, requestSuccess, requestError, callback, _data$method, method, i, el, awaitRlt, _payload, mainResult;
+      var mutationMap, api, _data$payload, payload, redirectUrl, back, _data$requestBeforeAc, requestBeforeActions, _data$requestAfterAct, requestAfterActions, requestSuccess, requestError, callback, _data$method, method, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, it, el, tp, awaitRlt, mainResult;
 
-      return regeneratorRuntime.wrap(function _callee7$(_context8) {
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
         while (1) {
-          switch (_context8.prev = _context8.next) {
+          switch (_context7.prev = _context7.next) {
             case 0:
               mutationMap = data.mutationMap, api = data.api, _data$payload = data.payload, payload = _data$payload === undefined ? {} : _data$payload, redirectUrl = data.redirectUrl, back = data.back, _data$requestBeforeAc = data.requestBeforeActions, requestBeforeActions = _data$requestBeforeAc === undefined ? [] : _data$requestBeforeAc, _data$requestAfterAct = data.requestAfterActions, requestAfterActions = _data$requestAfterAct === undefined ? [] : _data$requestAfterAct, requestSuccess = data.requestSuccess, requestError = data.requestError, callback = data.callback, _data$method = data.method, method = _data$method === undefined ? 'post' : _data$method;
               // log({method, data, payload})
@@ -540,62 +540,102 @@ export default (function (options) {
               // 前置 actions 执行
 
               if (!requestBeforeActions.length) {
-                _context8.next = 18;
+                _context7.next = 36;
                 break;
               }
 
-              i = 0;
+              _iteratorNormalCompletion = true;
+              _didIteratorError = false;
+              _iteratorError = undefined;
+              _context7.prev = 5;
+              _iterator = requestBeforeActions[Symbol.iterator]();
 
-            case 3:
-              if (!(i < requestBeforeActions.length)) {
-                _context8.next = 18;
+            case 7:
+              if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                _context7.next = 22;
                 break;
               }
 
+              it = _step.value;
               el = Object.assign({
                 name: '',
                 payload: {},
+                async: true,
                 callback: null
-              }, requestBeforeActions[i]);
-              awaitRlt = void 0;
-              _payload = typeof el.payload === 'function' ? el.payload() : el.payload;
+              }, it);
+              tp = typeof el.payload === 'function' ? el.payload() : el.payload;
 
               if (!el.async) {
-                _context8.next = 11;
+                _context7.next = 15;
                 break;
               }
 
-              dispatch(el.name, _payload);
-              _context8.next = 15;
+              // 异步
+              dispatch(el.name, tp);
+              _context7.next = 19;
               break;
 
-            case 11:
-              _context8.next = 13;
-              return dispatch(el.name, _payload);
+            case 15:
+              _context7.next = 17;
+              return dispatch(el.name, tp);
 
-            case 13:
-              awaitRlt = _context8.sent;
+            case 17:
+              awaitRlt = _context7.sent;
 
               if (awaitRlt && !awaitRlt.then) {
                 el.callback && el.callback(awaitRlt, payload);
               }
 
-            case 15:
-              i++;
-              _context8.next = 3;
+            case 19:
+              _iteratorNormalCompletion = true;
+              _context7.next = 7;
               break;
 
-            case 18:
+            case 22:
+              _context7.next = 28;
+              break;
+
+            case 24:
+              _context7.prev = 24;
+              _context7.t0 = _context7['catch'](5);
+              _didIteratorError = true;
+              _iteratorError = _context7.t0;
+
+            case 28:
+              _context7.prev = 28;
+              _context7.prev = 29;
+
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+
+            case 31:
+              _context7.prev = 31;
+
+              if (!_didIteratorError) {
+                _context7.next = 34;
+                break;
+              }
+
+              throw _iteratorError;
+
+            case 34:
+              return _context7.finish(31);
+
+            case 35:
+              return _context7.finish(28);
+
+            case 36:
               mainResult = {
                 message: '',
                 response: null
               };
-              return _context8.abrupt('return', new Promise(function () {
+              return _context7.abrupt('return', new Promise(function () {
                 var _ref15 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(resolve, reject) {
                   var reqArgs, completeCallback, requestResult;
-                  return regeneratorRuntime.wrap(function _callee6$(_context7) {
+                  return regeneratorRuntime.wrap(function _callee6$(_context6) {
                     while (1) {
-                      switch (_context7.prev = _context7.next) {
+                      switch (_context6.prev = _context6.next) {
                         case 0:
                           reqArgs = [method, api, payload, null, function (err) {
                             requestError && requestError(err);
@@ -604,113 +644,144 @@ export default (function (options) {
                             resolve(mainResult);
                           }];
 
-                          completeCallback = function completeCallback(response) {
-                            // log(response)
-                            if (response) {
-                              requestSuccess && requestSuccess(response);
+                          completeCallback = function () {
+                            var _ref16 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(response) {
+                              var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, _it, _el, _tp, _awaitRlt;
 
-                              // log(requestAfterActions)
-                              if (requestAfterActions.length) {
-                                _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-                                  var i, _loop;
-
-                                  return regeneratorRuntime.wrap(function _callee5$(_context6) {
-                                    while (1) {
-                                      switch (_context6.prev = _context6.next) {
-                                        case 0:
-                                          i = 0;
-                                          _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop() {
-                                            var el, awaitRlt, _payload, tfn;
-
-                                            return regeneratorRuntime.wrap(function _loop$(_context5) {
-                                              while (1) {
-                                                switch (_context5.prev = _context5.next) {
-                                                  case 0:
-                                                    el = Object.assign({
-                                                      name: '',
-                                                      payload: null,
-                                                      callback: null
-                                                    }, requestAfterActions[i]);
-                                                    awaitRlt = void 0;
-                                                    _payload = typeof el.payload === 'function' ? el.payload() : el.payload;
-
-                                                    tfn = function tfn() {
-                                                      return dispatch(el.name, _payload);
-                                                    };
-
-                                                    if (!el.async) {
-                                                      _context5.next = 8;
-                                                      break;
-                                                    }
-
-                                                    tfn();
-                                                    _context5.next = 12;
-                                                    break;
-
-                                                  case 8:
-                                                    _context5.next = 10;
-                                                    return dispatch(el.name, _payload);
-
-                                                  case 10:
-                                                    awaitRlt = _context5.sent;
-
-                                                    if (awaitRlt && !awaitRlt.then) {
-                                                      el.callback && el.callback(awaitRlt, payload);
-                                                    }
-
-                                                  case 12:
-                                                    i++;
-
-                                                  case 13:
-                                                  case 'end':
-                                                    return _context5.stop();
-                                                }
-                                              }
-                                            }, _loop, _this);
-                                          });
-
-                                        case 2:
-                                          if (!(i < requestAfterActions.length)) {
-                                            _context6.next = 6;
-                                            break;
-                                          }
-
-                                          return _context6.delegateYield(_loop(), 't0', 4);
-
-                                        case 4:
-                                          _context6.next = 2;
-                                          break;
-
-                                        case 6:
-                                        case 'end':
-                                          return _context6.stop();
+                              return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                                while (1) {
+                                  switch (_context5.prev = _context5.next) {
+                                    case 0:
+                                      if (!response) {
+                                        _context5.next = 41;
+                                        break;
                                       }
-                                    }
-                                  }, _callee5, _this);
-                                }))();
-                              }
 
-                              // 执行回调
-                              if (callback) {
-                                if ((typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) === 'object') {
-                                  callback.response = response;
-                                  callback.payload = payload;
-                                  commit(mutationMap.done, callback);
-                                }
-                              }
+                                      requestSuccess && requestSuccess(response);
 
-                              back && setTimeout(function () {
-                                if (typeof back === 'string') {
-                                  window.location.hash = back;
-                                } else {
-                                  window.history.go(-1);
+                                      // log(requestAfterActions)
+
+                                      if (!requestAfterActions.length) {
+                                        _context5.next = 37;
+                                        break;
+                                      }
+
+                                      _iteratorNormalCompletion2 = true;
+                                      _didIteratorError2 = false;
+                                      _iteratorError2 = undefined;
+                                      _context5.prev = 6;
+                                      _iterator2 = requestAfterActions[Symbol.iterator]();
+
+                                    case 8:
+                                      if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                                        _context5.next = 23;
+                                        break;
+                                      }
+
+                                      _it = _step2.value;
+                                      _el = Object.assign({
+                                        name: '',
+                                        payload: null,
+                                        async: true,
+                                        callback: null
+                                      }, _it);
+                                      _tp = typeof _el.payload === 'function' ? _el.payload() : _el.payload;
+
+                                      if (!_el.async) {
+                                        _context5.next = 16;
+                                        break;
+                                      }
+
+                                      dispatch(_el.name, _tp);
+                                      _context5.next = 20;
+                                      break;
+
+                                    case 16:
+                                      _context5.next = 18;
+                                      return dispatch(_el.name, _tp);
+
+                                    case 18:
+                                      _awaitRlt = _context5.sent;
+
+                                      if (_awaitRlt && !_awaitRlt.then) {
+                                        _el.callback && _el.callback(_awaitRlt, payload);
+                                      }
+
+                                    case 20:
+                                      _iteratorNormalCompletion2 = true;
+                                      _context5.next = 8;
+                                      break;
+
+                                    case 23:
+                                      _context5.next = 29;
+                                      break;
+
+                                    case 25:
+                                      _context5.prev = 25;
+                                      _context5.t0 = _context5['catch'](6);
+                                      _didIteratorError2 = true;
+                                      _iteratorError2 = _context5.t0;
+
+                                    case 29:
+                                      _context5.prev = 29;
+                                      _context5.prev = 30;
+
+                                      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                        _iterator2.return();
+                                      }
+
+                                    case 32:
+                                      _context5.prev = 32;
+
+                                      if (!_didIteratorError2) {
+                                        _context5.next = 35;
+                                        break;
+                                      }
+
+                                      throw _iteratorError2;
+
+                                    case 35:
+                                      return _context5.finish(32);
+
+                                    case 36:
+                                      return _context5.finish(29);
+
+                                    case 37:
+
+                                      // 执行回调
+                                      if (callback) {
+                                        if ((typeof callback === 'undefined' ? 'undefined' : _typeof(callback)) === 'object') {
+                                          callback.response = response;
+                                          callback.payload = payload;
+                                          commit(mutationMap.done, callback);
+                                        }
+                                      }
+
+                                      back && setTimeout(function () {
+                                        if (typeof back === 'string') {
+                                          window.location.hash = back;
+                                        } else {
+                                          window.history.go(-1);
+                                        }
+                                      }, 500);
+                                      redirectUrl && (window.location.hash = redirectUrl);
+                                      mainResult.response = response;
+
+                                    case 41:
+                                      resolve(mainResult);
+
+                                    case 42:
+                                    case 'end':
+                                      return _context5.stop();
+                                  }
                                 }
-                              }, 500);
-                              redirectUrl && (window.location.hash = redirectUrl);
-                              mainResult.response = response;
-                            }
-                            resolve(mainResult);
-                          };
+                              }, _callee5, _this, [[6, 25, 29, 37], [30,, 32, 36]]);
+                            }));
+
+                            return function completeCallback(_x13) {
+                              return _ref16.apply(this, arguments);
+                            };
+                          }();
 
                           requestResult = request.apply(_this, reqArgs);
                           // log(requestResult)
@@ -728,7 +799,7 @@ export default (function (options) {
 
                         case 4:
                         case 'end':
-                          return _context7.stop();
+                          return _context6.stop();
                       }
                     }
                   }, _callee6, _this);
@@ -739,12 +810,12 @@ export default (function (options) {
                 };
               }()));
 
-            case 20:
+            case 38:
             case 'end':
-              return _context8.stop();
+              return _context7.stop();
           }
         }
-      }, _callee7, _this);
+      }, _callee7, _this, [[5, 24, 28, 36], [29,, 31, 35]]);
     }));
 
     return function entitySend(_x9) {
