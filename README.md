@@ -194,31 +194,31 @@ expect(collectionData).to.equal({
 ```
 
 
-#### handleEntity(options)
+#### handleEntity(options)
 对 `state` 的实体进行操作
 
 options [Object]
 
 |字段|必填|类型|默认值|说明|
 |---|---|---|---|---|
-|name|true|string|-|实体名称，与 `state` 内定义名称一致
-|type|false|string|single| 可选值：collection、single
-|operate|false|string|index| 可选值：index、create、delete、update、read
-|payload|false|object|-|请求时携带的数据对象
-> 实体依据 operate 自动对请求时的 url、method 进行定义。
+|name|true|string|-|实体名称，与 `state` 内定义名称一致|
+|type|false|string|single| 可选值：collection、single|
+|operate|false|string|index| 可选值：index、create、delete、update、read|
+|payload|false|object|-|请求时携带的数据对象|
 
+> 实体依据 operate 自动对请求时的 url、method 进行定义。
 
 ### 预置 Actions
 即使不使用面向实体的操作，例如初始化时不传入 `apiMap`、`apiRestful`，以及不使用 `handleEntity` 方法。只要初始化成功后，store 将会预定义一些 `action` 如下。
 |名称|说明|
 |---|---|
-|entityOperate|单一实体的操作
-|collectionOperate|实体集合的操作
-|entitySync|同步远端数据到本地，`method:get`
-|collectionSync|同步远端集合数据到本地，`method:get`
-|entitySend|发送本地数据到远端，`method:delete|put|post`
-|entitySet|设置 state 某条记录的数据
-|entityReset|重置 state 某条记录的数据
+|entityOperate|单一实体的操作|
+|collectionOperate|实体集合的操作|
+|entitySync|同步远端数据到本地，`method:get`|
+|collectionSync|同步远端集合数据到本地，`method:get`|
+|entitySend|发送本地数据到远端，`method:delete|put|post`|
+|entitySet|设置 state 某条记录的数据|
+|entityReset|重置 state 某条记录的数据|
 
 以下示例注释说明规则： `+` 必填，`?` 可选
 
