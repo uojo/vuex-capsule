@@ -94,7 +94,7 @@ const handleEntity = function (ops) {
     console.warn('store is null')
     return
   }
-  let fname = ops.type === 'collection' ? types.ENTITY_LIST : types.ENTITY
+  let fname = ops.type === 'collection' ? 'collectionOperate' : 'entityOperate'
   // console.log(fname, ops)
   return store.dispatch(fname, ops)
 }

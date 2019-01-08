@@ -9,18 +9,18 @@ export default (type, url, res) => {
 
   // 数据
   let message = ''
-  if (type === 'list') {
+  if (type === 'collection') {
     let {results} = res
     if (results === undefined) {
       message = `response.results is undefined, url:${url}`
     } else {
-      let {items, pageBean} = results
+      let {items} = results
       if (items === undefined) {
         message = `response.results.items is undefined, url:${url}`
       }
-      if (pageBean === undefined) {
+      /* if (pageBean === undefined) {
         message = `response.results.pageBean is undefined, url:${url}`
-      }
+      } */
     }
   } else if (type === 'create') {
     let {results} = res

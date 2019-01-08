@@ -46,30 +46,28 @@ utils/request.js
 ```javascript
 import axios from 'axios'
 
-export default {
-  req: function (method, url = '', data = {}, success = null, error = null) {
-    let payload = method === 'get' ? {params: data} : data
+export default function (method, url = '', data = {}, success = null, error = null) {
+  let payload = method === 'get' ? {params: data} : data
 
-    axios[method](url, payload)
-      .then(response => {
-        // 指定接口结构
-        let res = Object.assign({
-          success: true,
-          results: {}
-        }, response)
-        // 执行回调
-        success(res)
-      })
-      .catch(error => {
-        // 指定接口结构
-        let err = Object.assign({
-          success: false,
-          message: ''
-        }, error)
-        // 执行回调
-        error(err)
-      })
-  }
+  axios[method](url, payload)
+    .then(response => {
+      // 指定接口结构
+      let res = Object.assign({
+        success: true,
+        results: {}
+      }, response)
+      // 执行回调
+      success(res)
+    })
+    .catch(error => {
+      // 指定接口结构
+      let err = Object.assign({
+        success: false,
+        message: ''
+      }, error)
+      // 执行回调
+      error(err)
+    })
 }
 ```
 以上代码可修改，关键点在于传入参数的限定。
@@ -93,7 +91,7 @@ let options = {
     entityA:{
       state:{
         index: {
-          ...vuexCapsule.createEntity('list')
+          ...vuexCapsule.createEntity('collection')
         },
         create: {
           ...vuexCapsule.createEntity('single')
@@ -196,26 +194,49 @@ expect(collectionData).to.equal({
 ```
 
 
-#### handleEntity(options)
+#### handleEntity(options)
 对 `state` 的实体进行操作
 
 options [Object]
 
 |字段|必填|类型|默认值|说明|
 |---|---|---|---|---|
-|name|true|string|-|实体名称，与 `state` 内定义名称一致
-|type|false|string|single| 可选值：collection、single
-|operate|false|string|index| 可选值：index、create、delete、update、read
-|payload|false|object|-|请求时携带的数据对象
-> 实体依据 operate 自动对请求时的 url、method 进行定义。
+|name|true|string|-|实体名称，与 `state` 内定义名称一致|
+|type|false|string|single| 可选值：collection、single|
+|operate|false|string|index| 可选值：index、create、delete、update、read|
+|payload|false|object|-|请求时携带的数据对象|
 
+> 实体依据 operate 自动对请求时的 url、method 进行定义。
 
 ### 预置 Actions
 即使不使用面向实体的操作，例如初始化时不传入 `apiMap`、`apiRestful`，以及不使用 `handleEntity` 方法。只要初始化成功后，store 将会预定义一些 `action` 如下。
+|名称|说明|
+|---|---|
+|entityOperate|单一实体的操作|
+|collectionOperate|实体集合的操作|
+|entitySync|同步远端数据到本地，`method:get`|
+|collectionSync|同步远端集合数据到本地，`method:get`|
+|entitySend|发送本地数据到远端，`method:delete|put|post`|
+|entitySet|设置 state 某条记录的数据|
+|entityReset|重置 state 某条记录的数据|
 
 以下示例注释说明规则： `+` 必填，`?` 可选
 
 ```javascript
+dispatch("entityOperate", {
+  name:"", //+ 实体名称
+  attribute:"", //? 实体属性，与请求时的 url 与 state.path 关联
+  operate:"", //? 实体操作
+  payload:{}, //? 同步数据时（request）携带的数据
+})
+
+dispatch("collectionOperate", {
+  name:"", //+ 实体名称
+  attribute:"", //? 集合实体属性，与请求时的 url 与 state.path 关联
+  operate:"", //? 集合实体操作
+  payload:{}, //? 同步数据时（request）携带的数据
+})
+
 dispatch("entitySync", {
   path:"", //+
   api:"", //+
@@ -301,6 +322,8 @@ dispatch("entitySet", {
 ```
 
 ## ChangeLog
+### 2.0.1
+- fix，当返回的数据为列表时，接口中 pageBean 字段非必要。
 ### 2.0.0
 - 代码重构，围绕单一实体、集合实体简化使用与配置。
 ### 1.1.1

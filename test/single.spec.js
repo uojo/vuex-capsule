@@ -7,7 +7,6 @@ import vuexCapsule from '../src/'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
-const Types = vuexCapsule.types
 
 describe('vuex action', () => {
   const apiMap = {apple: 'xxx'}
@@ -91,7 +90,7 @@ describe('vuex action', () => {
     // 初始状态
     expect(stateOperateBase.step).toEqual('')
     // 开始新增操作
-    store.dispatch(Types.ENTITY, {name: 'apple', attribute, operate})
+    store.dispatch('entityOperate', {name: 'apple', attribute, operate})
     expect(stateOperateBase.data).toEqual({id: '', name: ''})
     // 标记操作类型
     expect(stateOperateBase.operate).toEqual(operate)
@@ -112,7 +111,7 @@ describe('vuex action', () => {
     // 提交数据
     let payload = res.results
     // 开始新增操作
-    store.dispatch(Types.ENTITY, {name: 'apple', attribute, operate, payload}).then((e) => {
+    store.dispatch('entityOperate', {name: 'apple', attribute, operate, payload}).then((e) => {
       // log(e)
       // 数据没有改变
       if (['index', 'read'].includes(operate)) {
@@ -145,64 +144,64 @@ describe('vuex action', () => {
   }
   // entity
 
-  it('dispatch ENTITY entity index', (done) => {
+  it('dispatch entity index', (done) => {
     let operate = 'index'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY entity create', (done) => {
+  it('dispatch entity create', (done) => {
     let operate = 'create'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY entity delete', (done) => {
+  it('dispatch entity delete', (done) => {
     let operate = 'delete'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY entity update', (done) => {
+  it('dispatch entity update', (done) => {
     let operate = 'update'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY entity read', (done) => {
+  it('dispatch entity read', (done) => {
     let operate = 'read'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY entity reset', () => {
+  it('dispatch entity reset', () => {
     let operate = 'reset'
     resetScene({operate})
   })
 
   // entity/attribute
 
-  it('dispatch ENTITY entity/attribute index', (done) => {
+  it('dispatch entity/attribute index', (done) => {
     let operate = 'index'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY entity/attribute create', (done) => {
+  it('dispatch entity/attribute create', (done) => {
     let operate = 'create'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY entity/attribute delete', (done) => {
+  it('dispatch entity/attribute delete', (done) => {
     let operate = 'delete'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY entity/attribute update', (done) => {
+  it('dispatch entity/attribute update', (done) => {
     let operate = 'update'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY entity read', (done) => {
+  it('dispatch entity/attribute read', (done) => {
     let operate = 'read'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY entity reset', () => {
+  it('dispatch entity/attribute reset', () => {
     let operate = 'reset'
     resetScene({operate, attribute: 'taste'})
   })

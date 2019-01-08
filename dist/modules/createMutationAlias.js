@@ -1,21 +1,28 @@
-import checkMutationName from './checkMutationName'
+import checkMutationName from './checkMutationName';
 // import {getStatePath} from './entity'
-import * as Types from '../types'
+import * as Types from '../types';
 // import log from './log'
 
-const handle = (options) => {
-  return ({form, entityInfo, operate}) => {
-    let rlt
-    let {api, stateOperatePath} = entityInfo.data
+var handle = function handle(options) {
+  return function (_ref) {
+    var form = _ref.form,
+        entityInfo = _ref.entityInfo,
+        operate = _ref.operate;
+
+    var rlt = void 0;
+    var _entityInfo$data = entityInfo.data,
+        api = _entityInfo$data.api,
+        stateOperatePath = _entityInfo$data.stateOperatePath;
     // log({stateBasePath, stateOperatePath, stateOperateDataPath})
     // const statePath = getStatePath(name, attribute, operate)
     // log(statePath.operatePath)
-    const mutationPrefix = [form].concat(stateOperatePath)
+
+    var mutationPrefix = [form].concat(stateOperatePath);
     // log(mutationPrefix)
-    const convertMutationName = function () {
+    var convertMutationName = function convertMutationName() {
       // log(arguments)
-      return mutationPrefix.concat(Array.from(arguments))
-    }
+      return mutationPrefix.concat(Array.from(arguments));
+    };
     // log(mutationPrefix.join('/'))
     // log(api.url)
     switch (form) {
@@ -29,7 +36,7 @@ const handle = (options) => {
             progress: Types.M_LIST_LOADING,
             received: Types.M_LIST_RECEIVED,
             error: Types.M_LIST_ERROR
-          })
+          });
         } else {
           // send
           rlt = checkMutationName(options, true, {
@@ -38,10 +45,10 @@ const handle = (options) => {
           }, {
             error: Types.M_SEND_ERROR,
             done: Types.M_MOD_SET
-          })
+          });
         }
 
-        break
+        break;
       case 'single':
 
         if (operate === 'reset') {
@@ -49,7 +56,7 @@ const handle = (options) => {
             restDone: convertMutationName('done')
           }, {
             restDone: Types.M_MOD_RESET
-          })
+          });
         } else {
           if (api.url) {
             if (['index', 'read'].includes(operate)) {
@@ -57,16 +64,16 @@ const handle = (options) => {
                 received: convertMutationName('received')
               }, {
                 received: Types.M_MOD_RECEIVED
-              })
+              });
             } else {
-            // send
+              // send
               rlt = checkMutationName(options, true, {
                 error: convertMutationName('send', 'error'),
                 done: convertMutationName('done')
               }, {
                 error: Types.M_SEND_ERROR,
                 done: Types.M_MOD_SET
-              })
+              });
             }
           } else {
             if (operate === 'update') {
@@ -74,17 +81,17 @@ const handle = (options) => {
                 localUpdateDone: convertMutationName('done')
               }, {
                 localUpdateDone: Types.M_MOD_SET
-              })
+              });
             }
           }
         }
 
-        break
+        break;
     }
 
-    return rlt
-  }
-}
+    return rlt;
+  };
+};
 
 // mutation 别名
-export default handle
+export default handle;

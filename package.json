@@ -1,6 +1,6 @@
 {
   "name": "vuex-capsule",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "简化 vuex 在项目中的应用编码，抽象 vuex 中常用逻辑，定义了通用的 mutations、actions、types",
   "keywords": [
     "vuex",
@@ -10,7 +10,9 @@
   "scripts": {
     "build": "babel src --out-dir dist",
     "lint": "standard --fix --env jest",
-    "test": "npm run lint && jest test --watch"
+    "test": "npm run lint && jest test",
+    "test:watch": "npm run lint && jest test --watch",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -29,10 +31,12 @@
   "homepage": "https://github.com/uojo/vuex-capsule",
   "devDependencies": {
     "@vue/test-utils": "^1.0.0-beta.21",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^23.4.2",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
     "jest": "^23.4.2",
     "jest-serializer-vue": "^2.0.2",
     "sinon": "^6.1.4",
@@ -67,8 +71,10 @@
     ]
   },
   "standard": {
-    "env":["jest"],
-    "globals":[],
+    "env": [
+      "jest"
+    ],
+    "globals": [],
     "ignore": [
       "/dist/"
     ]

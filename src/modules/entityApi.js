@@ -50,7 +50,7 @@ export default ({name, attribute = '', operate = '', payload, form = '', apiMap,
   // 判断是否需要参数 ID
   let requireId = false
   if (apiRestful) {
-    if (form === 'list') {
+    if (form === 'collection') {
       if (/delete|update/.test(operate)) {
         requireId = true
       }

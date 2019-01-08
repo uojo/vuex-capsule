@@ -7,7 +7,6 @@ import vuexCapsule from '../src/'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
-const Types = vuexCapsule.types
 
 describe('vuex action', () => {
   const apiMap = {apple: 'xxx'}
@@ -20,12 +19,12 @@ describe('vuex action', () => {
       state: {
         // 保留字段
         index: {
-          ...vuexCapsule.createEntity('list')
+          ...vuexCapsule.createEntity('collection')
         },
         // 自定义属性
         taste: {
           index: {
-            ...vuexCapsule.createEntity('list')
+            ...vuexCapsule.createEntity('collection')
           }
         }
       }
@@ -77,7 +76,7 @@ describe('vuex action', () => {
     let itemsInitLength = ['update', 'delete'].includes(operate) ? 1 : 0
     expect(stateBase.index.items.length).toEqual(itemsInitLength)
     // 初始状态
-    expect(stateBase.index.itemsStep).toEqual('')
+    expect(stateBase.index.step).toEqual('')
 
     let payloadMap = {
       index: {},
@@ -87,7 +86,7 @@ describe('vuex action', () => {
     }
     let payload = payloadMap[operate]
 
-    store.dispatch(Types.ENTITY_LIST, {name: 'apple', operate, attribute, payload}).then((e) => {
+    store.dispatch('collectionOperate', {name: 'apple', operate, attribute, payload}).then((e) => {
       if (operate === 'index') {
       // 列表数据
         expect(stateBase.index.items).toEqual(res.results.items)
@@ -108,11 +107,11 @@ describe('vuex action', () => {
       }
 
       // 状态
-      expect(stateBase.index.itemsStep).toEqual('done')
+      expect(stateBase.index.step).toEqual('done')
       done()
     })
     // 正在处理
-    expect(stateBase.index.itemsStep).toEqual('progress')
+    expect(stateBase.index.step).toEqual('progress')
     // request 被执行
     let methodMap = {
       index: 'get',
@@ -130,43 +129,43 @@ describe('vuex action', () => {
 
   // entity
 
-  it('dispatch ENTITY_LIST entity index', (done) => {
+  it('dispatch collection/operate index', (done) => {
     let operate = 'index'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY_LIST entity create', (done) => {
+  it('dispatch collection/operate create', (done) => {
     let operate = 'create'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY_LIST entity delete', (done) => {
+  it('dispatch collection/operate delete', (done) => {
     let operate = 'delete'
     normalScene({operate, done})
   })
 
-  it('dispatch ENTITY_LIST entity update', (done) => {
+  it('dispatch collection/operate update', (done) => {
     let operate = 'update'
     normalScene({operate, done})
   })
   // entity/attribute
 
-  it('dispatch ENTITY_LIST entity/attribute index', (done) => {
+  it('dispatch collection/operate/attribute index', (done) => {
     let operate = 'index'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY_LIST entity/attribute create', (done) => {
+  it('dispatch collection/operate/attribute create', (done) => {
     let operate = 'create'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY_LIST entity/attribute delete', (done) => {
+  it('dispatch collection/operate/attribute delete', (done) => {
     let operate = 'delete'
     normalScene({operate, attribute: 'taste', done})
   })
 
-  it('dispatch ENTITY_LIST entity/attribute update', (done) => {
+  it('dispatch collection/operate/attribute update', (done) => {
     let operate = 'update'
     normalScene({operate, attribute: 'taste', done})
   })
