@@ -70,27 +70,24 @@ export default ({request}) => {
       stepField && commit(Types.M_SEND_STEP, {stepField, value: 'loading'})
       // 遍历执行，await 执行
       if (requestBeforeActions.length) {
-        let i = 0
-        while (i < requestBeforeActions.length) {
+        for (let it of requestBeforeActions) {
           let el = Object.assign({
             name: '',
             payload: {},
             async: true,
             callback: null
-          }, requestBeforeActions[i])
-          let awaitRlt
-          let _payload = (typeof el.payload === 'function') ? el.payload() : el.payload
+          }, it)
+          let tp = (typeof el.payload === 'function') ? el.payload() : el.payload
           if (el.async) {
             // 异步
-            dispatch(el.name, _payload)
+            dispatch(el.name, tp)
           } else {
             // 同步
-            awaitRlt = await dispatch(el.name, _payload)
+            let awaitRlt = await dispatch(el.name, tp)
             if (awaitRlt && !awaitRlt.then) {
               el.callback && el.callback(awaitRlt, payload)
             }
           }
-          i++
         }
       }
 
@@ -105,7 +102,7 @@ export default ({request}) => {
         let resPromise = request.apply(this, reqArgs)
         // console.log(resPromise)
 
-        const complete_cb = (response) => {
+        const complete_cb = async (response) => {
           if (response) {
             requestSuccess && requestSuccess(response)
             // console.log(response,success,message)
@@ -113,28 +110,23 @@ export default ({request}) => {
 
             // console.log(requestAfterActions)
             if (requestAfterActions.length) {
-              (async () => {
-                let i = 0
-                while (i < requestAfterActions.length) {
-                  let el = Object.assign({
-                    name: '',
-                    payload: null,
-                    async: true,
-                    callback: null
-                  }, requestAfterActions[i])
-                  let awaitRlt
-                  let tfn = () => dispatch(el.name, (typeof el.payload === 'function' ? el.payload() : el.payload))
-                  if (el.async) {
-                    tfn()
-                  } else {
-                    awaitRlt = await dispatch(el.name, _payload)
-                    if (awaitRlt && !awaitRlt.then) {
-                      el.callback && el.callback(awaitRlt, payload)
-                    }
+              for (let it of requestAfterActions) {
+                let el = Object.assign({
+                  name: '',
+                  payload: null,
+                  async: true,
+                  callback: null
+                }, it)
+                let tp = (typeof el.payload === 'function') ? el.payload() : el.payload
+                if (el.async) {
+                  dispatch(el.name, tp)
+                } else {
+                  let awaitRlt = await dispatch(el.name, tp)
+                  if (awaitRlt && !awaitRlt.then) {
+                    el.callback && el.callback(awaitRlt, payload)
                   }
-                  i++
                 }
-              })()
+              }
             }
 
             // 执行回调
@@ -148,7 +140,7 @@ export default ({request}) => {
 
             back && setTimeout(() => {
               if (typeof back === 'string') {
-                location.hash = back
+                window.location.hash = back
               } else {
                 window.history.go(-1)
               }
