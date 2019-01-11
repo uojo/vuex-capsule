@@ -210,13 +210,14 @@ options [Object]
 
 ### 预置 Actions
 即使不使用面向实体的操作，例如初始化时不传入 `apiMap`、`apiRestful`，以及不使用 `handleEntity` 方法。只要初始化成功后，store 将会预定义一些 `action` 如下。
+
 |名称|说明|
 |---|---|
 |entityOperate|单一实体的操作|
 |collectionOperate|实体集合的操作|
 |entitySync|同步远端数据到本地，`method:get`|
 |collectionSync|同步远端集合数据到本地，`method:get`|
-|entitySend|发送本地数据到远端，`method:delete|put|post`|
+|entitySend|发送本地数据到远端，`method:delete,put,post`|
 |entitySet|设置 state 某条记录的数据|
 |entityReset|重置 state 某条记录的数据|
 
