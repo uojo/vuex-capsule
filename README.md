@@ -173,6 +173,8 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 1.2.1
+- chore 升级依赖 lodash 版本至 4.17.12
 ### 1.2.0
 - feature 自定义的 action 支持 await 执行
 - fix 修复参数 requestAfterActions 
