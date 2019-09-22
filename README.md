@@ -173,6 +173,8 @@ commit(Types.M_MOD_SET,{
 ```
 
 ## ChangeLog
+### 1.2.2
+- fix A_SEND_REQUEST 中的 actions resolve 没有执行
 ### 1.2.1
 - chore 升级依赖 lodash 版本至 4.17.12
 ### 1.2.0

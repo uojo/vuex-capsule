@@ -147,7 +147,7 @@ export default ({request}) => {
             }, 500)
             redirectUrl && (window.location.hash = redirectUrl)
           }
-          reslove(response)
+          resolve(response)
         }
 
         resPromise.then(e => {

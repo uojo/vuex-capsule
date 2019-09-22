@@ -366,7 +366,7 @@ exports.default = function (_ref) {
                                       redirectUrl && (window.location.hash = redirectUrl);
 
                                     case 41:
-                                      reslove(response);
+                                      resolve(response);
 
                                     case 42:
                                     case 'end':
